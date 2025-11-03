@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <style>
+      .bg { fill: #2563EB; }
+      .txt { fill: #FFFFFF; font: 260px "DejaVu Sans", Arial, sans-serif; font-weight:700; }
+    </style>
+  </defs>
+  <circle class="bg" cx="256" cy="256" r="256" />
+  <text class="txt" x="50%" y="57%" text-anchor="middle">RA</text>
+</svg>

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>MD RASEL AHMED — Backend Engineer (Laravel · PHP · AWS)</title>
+    <meta name="description" content="Backend Engineer with 10+ years building Laravel APIs, AWS cloud systems, Dockerized microservices, and CI/CD. Remote-ready and globally experienced." />
+    <link rel="canonical" href="https://devsniper71.github.io/" />
+    <link rel="alternate" href="https://devsniper71.github.io/" hreflang="en" />
+    <meta name="author" content="MD RASEL AHMED" />
+    <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="format-detection" content="telephone=no,address=no,email=no" />
+
+    <!-- Prevent dark-mode flash -->
+    <script>
+        (() => {
+            const t = localStorage.getItem('theme');
+            const prefers = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if ((t === 'dark') || (!t && prefers)) document.documentElement.classList.add('dark');
+        })();
+    </script>
+
+    <!-- Fonts & Tailwind -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: { extend: { fontFamily: { sans: ['Inter','ui-sans-serif','system-ui'] } } },
+            darkMode: 'class'
+        }
+    </script>
+
+    <!-- Favicons -->
+    <link rel="icon" href="/assets/images/favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon/favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="/assets/images/favicon/site-icon.svg">
+    <link rel="manifest" href="/assets/images/favicon/site.webmanifest">
+    <meta name="theme-color" content="#2563EB">
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:title" content="MD RASEL AHMED — Backend Engineer" />
+    <meta property="og:description" content="Laravel · PHP · AWS · Cloud & DevOps — remote-ready." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="MD RASEL AHMED — Portfolio" />
+    <meta property="og:url" content="https://devsniper71.github.io/" />
+    <meta property="og:image" content="https://devsniper71.github.io/assets/og/rasel-ahmed-portfolio-1200x630.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Portfolio preview for MD RASEL AHMED" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://devsniper71.github.io/assets/og/rasel-ahmed-portfolio-1200x630.jpg" />
+
+    <!-- Schema JSON-LD -->
+    <script type="application/ld+json">
+        {
+            "@context":"https://schema.org",
+            "@type":"Person",
+            "@id":"https://devsniper71.github.io/#person",
+            "name":"MD RASEL AHMED",
+            "jobTitle":"Backend Engineer",
+            "image":"https://devsniper71.github.io/assets/og/rasel-ahmed-headshot.jpg",
+            "email":"mailto:devsniper71@gmail.com",
+            "telephone":"+8801782449977",
+            "url":"https://devsniper71.github.io/",
+            "sameAs":[
+                "https://linkedin.com/in/devsniper71",
+                "https://github.com/devsniper71",
+                "https://wa.me/8801782449977"
+            ],
+            "worksFor":{"@type":"Organization","name":"AnySense Inc."},
+            "contactPoint":[{
+                "@type":"ContactPoint",
+                "contactType":"Work",
+                "email":"mailto:devsniper71@gmail.com",
+                "telephone":"+8801782449977",
+                "areaServed":"Worldwide",
+                "availableLanguage":["en","bn","ja"]
+            }]
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+            "@context":"https://schema.org",
+            "@type":"WebSite",
+            "url":"https://devsniper71.github.io/",
+            "name":"MD RASEL AHMED — Portfolio",
+            "inLanguage":"en",
+            "potentialAction":{
+                "@type":"SearchAction",
+                "target":"https://www.google.com/search?q=site:devsniper71.github.io+{search_term_string}",
+                "query-input":"required name=search_term_string"
+            }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+            "@context":"https://schema.org",
+            "@type":"BreadcrumbList",
+            "itemListElement":[
+                {"@type":"ListItem","position":1,"name":"Summary","item":"https://devsniper71.github.io/#summary"},
+                {"@type":"ListItem","position":2,"name":"Experience","item":"https://devsniper71.github.io/#experience"},
+                {"@type":"ListItem","position":3,"name":"Projects","item":"https://devsniper71.github.io/#projects"}
+            ]
+        }
+    </script>
+
+    <style>
+        a { text-underline-offset: 2px; }
+        :focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
+
+        /* Paper & margins (smaller to fit in 2 pages) */
+        @page { size: A4; margin: 10mm; }
+
+        @media print {
+            html, body { height: auto; }
+            body {
+                background: #fff !important;
+                color: #000 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                font-size: 13.25px;       /* compact base font */
+                line-height: 1.35;         /* tighter but readable */
+            }
+
+            /* Use full printable width to fit more per page */
+            main, section { max-width: 100% !important; margin: 0 auto; }
+
+            /* Remove header/nav controls from PDF entirely */
+            header { display: none !important; }
+            #toTopBtn { display: none !important; }
+
+            /* Tighten vertical rhythm */
+            main { padding-top: 10px !important; padding-bottom: 8px !important; }
+            section { padding-top: 10px !important; padding-bottom: 10px !important; }
+
+            /* Typography scaling for print */
+            h1 { font-size: 1.6rem !important; margin-bottom: .25rem !important; }
+            h2 { font-size: 1.15rem !important; }
+            h3 { font-size: 1.0rem !important; }
+
+            /* Lists: less indent & spacing */
+            ul { margin-top: .25rem !important; padding-left: 1rem !important; }
+            li { margin-bottom: .2rem !important; }
+
+            /* Cards/blocks spacing & padding */
+            article { padding: .75rem !important; margin-top: .75rem !important; }
+            .grid { gap: .5rem !important; } /* reduce gaps in project grid */
+
+            /* Keep blocks together across pages where possible */
+            article, section, .rounded-2xl, .border, ul, li, h2, h3 { break-inside: avoid-page; }
+        }
+    </style>
+</head>
+
+<body class="bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 font-sans antialiased">
+
+<!-- Skip link (a11y) -->
+<a href="#summary" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded px-3 py-1 text-sm">Skip to content</a>
+
+<!-- Header -->
+<header class="sticky top-0 z-30 backdrop-blur border-b border-zinc-200/70 dark:border-zinc-800 bg-white/70 dark:bg-zinc-950/60">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+        <span class="font-semibold tracking-tight uppercase">MD RASEL AHMED</span>
+
+        <!-- Desktop nav -->
+        <nav class="hidden sm:flex gap-5 text-sm" role="navigation" aria-label="Primary">
+            <a href="#summary" class="hover:underline" aria-current="page">Summary</a>
+            <a href="#highlights" class="hover:underline">Highlights</a>
+            <a href="#skills" class="hover:underline">Skills</a>
+            <a href="#experience" class="hover:underline">Experience</a>
+            <a href="#projects" class="hover:underline">Projects</a>
+            <a href="#community" class="hover:underline">Community</a>
+            <a href="#certs" class="hover:underline">Certs</a>
+            <a href="#education" class="hover:underline">Education</a>
+        </nav>
+
+        <div class="hidden sm:flex items-center gap-2">
+            <button id="downloadPdf" class="rounded-xl border border-zinc-200 dark:border-zinc-800 px-3 py-1.5 text-sm hover:bg-zinc-50 dark:hover:bg-zinc-900 transition">
+                Download PDF
+            </button>
+            <button id="theme" class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-1.5" aria-label="Toggle dark mode">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden dark:inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364-1.414 1.414M7.05 16.95l-1.414 1.414m0-11.314L7.05 7.05m10.9 9.9 1.414 1.414M12 8.25A3.75 3.75 0 1 1 8.25 12 3.75 3.75 0 0 1 12 8.25Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 dark:hidden" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.75 12.003c0 5.385-4.365 9.75-9.75 9.75-3.37 0-6.34-1.682-8.147-4.243a.75.75 0 0 1 .928-1.117A7.5 7.5 0 0 0 12.75 4.5a7.5 7.5 0 0 0 6.607 11.219.75.75 0 0 1 .928 1.117 9.724 9.724 0 0 1-1.531 1.64 9.72 9.72 0 0 0 3-7.473Z"/></svg>
+            </button>
+        </div>
+
+        <!-- Mobile: theme + menu -->
+        <div class="flex sm:hidden items-center gap-2">
+            <button id="themeMobile" class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-1.5" aria-label="Toggle dark mode">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden dark:inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364-1.414 1.414M7.05 16.95l-1.414 1.414m0-11.314L7.05 7.05m10.9 9.9 1.414 1.414M12 8.25A3.75 3.75 0 1 1 8.25 12 3.75 3.75 0 0 1 12 8.25Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 dark:hidden" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.75 12.003c0 5.385-4.365 9.75-9.75 9.75-3.37 0-6.34-1.682-8.147-4.243a.75.75 0 0 1 .928-1.117A7.5 7.5 0 0 0 12.75 4.5a7.5 7.5 0 0 0 6.607 11.219.75.75 0 0 1 .928 1.117 9.724 9.724 0 0 1-1.531 1.64 9.72 9.72 0 0 0 3-7.473Z"/></svg>
+            </button>
+            <button id="menuToggle" class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-1.5" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+                <svg id="iconOpen" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                <svg id="iconClose" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile dropdown -->
+    <div id="mobileMenu" class="sm:hidden hidden border-t border-zinc-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-950/95">
+        <nav class="max-w-5xl mx-auto px-4 py-3 grid gap-3 text-sm" aria-label="Mobile">
+            <a href="#summary" class="hover:underline">Summary</a>
+            <a href="#highlights" class="hover:underline">Highlights</a>
+            <a href="#skills" class="hover:underline">Skills</a>
+            <a href="#experience" class="hover:underline">Experience</a>
+            <a href="#projects" class="hover:underline">Projects</a>
+            <a href="#community" class="hover:underline">Community</a>
+            <a href="#certs" class="hover:underline">Certs</a>
+            <a href="#education" class="hover:underline">Education</a>
+            <div class="h-px bg-zinc-200 dark:bg-zinc-800 my-1"></div>
+            <button id="downloadPdfMobile" class="rounded-lg border border-zinc-200 dark:border-zinc-800 px-3 py-1.5 text-sm text-center">
+                Download PDF
+            </button>
+        </nav>
+    </div>
+</header>
+
+<!-- Hero (Main) -->
+<main id="top" role="main" class="max-w-5xl mx-auto px-4 pt-10 pb-6">
+    <h1 class="text-3xl font-bold uppercase">MD RASEL AHMED</h1>
+
+    <!-- Contact line -->
+    <p class="mt-3 text-sm flex flex-wrap items-center gap-x-3 gap-y-2">
+        <a href="mailto:devsniper71@gmail.com" aria-label="Email: devsniper71@gmail.com" class="inline-flex items-center hover:opacity-80">
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4a2 2 0 0 0-2 2v.4l10 6.25L22 6.4V6a2 2 0 0 0-2-2Zm2 5.2-10 6.25L2 9.2V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9.2Z"/></svg>
+            <span class="sr-only">Email</span>
+        </a>
+        <span aria-hidden="true" role="presentation">·</span>
+        <a href="tel:+8801782449977" aria-label="Call: +880 1782-449-977" class="inline-flex items-center hover:opacity-80">
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.25 11.36 11.36 0 0 0 3.56.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 8a1 1 0 0 1 1-1h2.5a1 1 0 0 1 1 1c0 1.23.2 2.41.57 3.56a1 1 0 0 1-.25 1.02l-2.2 2.2Z"/></svg>
+            <span class="sr-only">Phone</span>
+        </a>
+        <span aria-hidden="true" role="presentation">·</span>
+        <a href="https://wa.me/8801782449977" target="_blank" rel="me noopener noreferrer" aria-label="WhatsApp" class="inline-flex items-center hover:opacity-80">
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163A11.867 11.867 0 0111.99 0C18.627 0 24 5.373 24 12.01S18.627 24.02 11.99 24.02h-.005A11.9 11.9 0 016.13 22.3L.057 24zm6.597-3.807a9.8 9.8 0 005.33 1.55h.004c5.428 0 9.86-4.434 9.862-9.864C21.853 6.45 17.42 2.02 11.99 2.02a9.83 9.83 0 00-8.452 14.74l.537.852-1 3.66 3.58-.954.892.505zM8.68 7.64c.21-.47.43-.48.63-.49.16-.007.34-.006.52-.006.18 0 .47-.067.72.34.25.406.85 1.405.92 1.506.07.1.12.22.02.35-.1.13-.15.21-.3.33-.15.12-.31.27-.45.46-.15.19-.31.39-.13.7.18.31.8 1.32 1.72 2.14 1.18 1.05 2.17 1.38 2.48 1.53.31.15.49.13.67-.08.18-.21.77-.9.98-1.22.21-.32.41-.27.67-.16.26.11 1.64.77 1.92.91.28.14.47.21.54.33.07.12.07.7-.17 1.36-.24.66-1.4 1.31-1.92 1.4-.49.09-1.12.13-1.81-.11-.42-.14-1-.32-1.73-.63-3.06-1.32-5.05-4.41-5.2-4.62-.15-.21-1.24-1.64-1.24-3.14 0-1.5.79-2.24 1.07-2.55z"/></svg>
+            <span class="sr-only">WhatsApp</span>
+        </a>
+        <span aria-hidden="true" role="presentation">·</span>
+        <a href="https://linkedin.com/in/devsniper71" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn" class="inline-flex items-center hover:opacity-80">
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 102.5 6a2.5 2.5 0 002.48-2.5zM3 8.98h4v12H3v-12zM9 8.98h3.83v1.64h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.65 4.78 6.09v6.22h-4v-5.51c0-1.31-.02-2.99-1.82-2.99-1.82 0-2.1 1.42-2.1 2.89v5.61H9v-12z"/></svg>
+            <span class="sr-only">LinkedIn</span>
+        </a>
+        <span aria-hidden="true" role="presentation">·</span>
+        <a href="https://github.com/devsniper71" target="_blank" rel="me noopener noreferrer" aria-label="GitHub" class="inline-flex items-center hover:opacity-80">
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.98 5.24.98 11.5c0 4.85 3.14 8.97 7.5 10.42.55.1.75-.24.75-.53 0-.26-.01-1.11-.02-2.02-3.05.66-3.7-1.3-3.7-1.3-.5-1.28-1.22-1.62-1.22-1.62-1-.69.08-.68.08-.68 1.1.08 1.67 1.12 1.67 1.12.98 1.67 2.56 1.19 3.18.9.1-.71.38-1.19.68-1.46-2.44-.28-5-1.22-5-5.44 0-1.2.43-2.18 1.12-2.95-.11-.28-.49-1.42.11-2.95 0 0 .93-.3 3.05 1.12.88-.24 1.82-.36 2.76-.36.94 0 1.88.12 2.76.36 2.12-1.42 3.05-1.12 3.05-1.12.6 1.53.22 2.67.11 2.95.69.77 1.12 1.75 1.12 2.95 0 4.23-2.56 5.15-5 5.43.39.34.73 1 .73 2.03 0 1.47-.01 2.65-.01 3.01 0 .29.2.64.75.53 4.36-1.45 7.5-5.57 7.5-10.42C23.02 5.24 18.27.5 12 .5z"/></svg>
+            <span class="sr-only">GitHub</span>
+        </a>
+    </p>
+
+    <p class="mt-3 text-lg text-zinc-700 dark:text-zinc-300">Backend Engineer · Laravel · PHP · AWS · Cloud & DevOps</p>
+</main>
+
+<!-- Summary -->
+<section id="summary" class="max-w-5xl mx-auto px-4 py-6">
+    <h2 class="text-xl font-semibold">Professional Summary</h2>
+    <p class="mt-2">
+        Innovative <strong>Backend Engineer</strong> with 10+ years designing and optimizing <strong>Laravel-based cloud systems</strong>.
+        Expert in <strong>AWS</strong>, containerized <strong>microservices</strong>, and <strong>CI/CD automation</strong>. Proven record of
+        modernizing legacy systems, improving performance, and leading distributed teams across Japan, UK, and US.
+    </p>
+</section>
+
+<!-- Key Highlights -->
+<section id="highlights" class="max-w-5xl mx-auto px-4 pb-2">
+    <h2 class="text-xl font-semibold">Key Highlights</h2>
+    <ul class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+        <li class="rounded-lg border border-zinc-200 dark:border-zinc-800 px-3 py-2">Transformed legacy systems into scalable <b>Laravel microservices</b> on AWS</li>
+        <li class="rounded-lg border border-zinc-200 dark:border-zinc-800 px-3 py-2">Automated <b>CI/CD</b> with Docker & GitHub Actions (≈ <b>60%</b> faster releases)</li>
+        <li class="rounded-lg border border-zinc-200 dark:border-zinc-800 px-3 py-2"><b>Led & mentored 10+ engineers</b>, improving quality and velocity</li>
+        <li class="rounded-lg border border-zinc-200 dark:border-zinc-800 px-3 py-2">Delivered multilingual, high-availability platforms for remote-first teams</li>
+    </ul>
+</section>
+
+<!-- Skills -->
+<section id="skills" class="max-w-5xl mx-auto px-4 py-6">
+    <h2 class="text-xl font-semibold">Technical Skills & Expertise</h2>
+    <div class="mt-4 grid md:grid-cols-2 gap-6 text-sm">
+        <div>
+            <h3 class="font-semibold">Backend Development</h3>
+            <p>Laravel, PHP, RESTful APIs, Microservices, Modular Architecture, API Versioning</p>
+            <h3 class="mt-4 font-semibold">Database Design & Optimization</h3>
+            <p>MySQL, PostgreSQL, Redis, <b>Indexing</b>, Query Optimization, Normalization, <b>Data Caching</b></p>
+            <h3 class="mt-4 font-semibold">Security & Quality Practices</h3>
+            <p>OWASP Standards, JWT, Sanctum, OAuth2, Rate Limiting, System Hardening, Logging & <b>Observability</b></p>
+            <h3 class="mt-4 font-semibold">Frontend Collaboration</h3>
+            <p>Vue.js, Next.js, Vite, Component-Based UI, Jest</p>
+            <h3 class="mt-4 font-semibold">AI & Automation Tools</h3>
+            <p>OpenAI API, LangChain, ChatGPT, GitHub Copilot, <b>AI-assisted code review</b>, <b>Embeddings</b> & <b>RAG basics</b></p>
+        </div>
+        <div>
+            <h3 class="font-semibold">DevOps & Cloud Infrastructure</h3>
+            <p>AWS (EC2, S3, RDS, CloudWatch, Lambda), Docker, GitHub Actions, GitLab CI, <b>Bitbucket Pipelines</b>, Nginx, Linux <b>Server Administration</b>, <b>Infrastructure as Code (IaC)</b></p>
+            <h3 class="mt-4 font-semibold">Team Leadership & Agile Delivery</h3>
+            <p>Scrum, Sprint Planning, Code Reviews, Pair Programming, Mentorship, Team Scaling, Technical Roadmapping</p>
+            <h3 class="mt-4 font-semibold">Soft Skills & Communication</h3>
+            <p>Cross-Cultural Collaboration, Empathetic Leadership, Technical Documentation, Remote Coordination</p>
+        </div>
+    </div>
+</section>
+
+<!-- Experience -->
+<section id="experience" class="max-w-5xl mx-auto px-4 py-6">
+    <h2 class="text-xl font-semibold">Professional Experience</h2>
+
+    <article class="mt-4 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-4">
+        <h3 class="font-semibold">Backend Engineer (Remote) — AnySense Inc., Fukuoka, Japan</h3>
+        <span class="text-sm text-zinc-500">Oct 2023 – Present</span>
+        <ul class="list-disc pl-5 text-sm mt-1">
+            <li>Architected secure, high-performance APIs using <b>Laravel 10+</b> and modern PHP</li>
+            <li>Integrated <b>AWS</b> (S3, RDS, CloudWatch) for scalability and reliability</li>
+            <li>Automated CI/CD and monitoring pipelines with <b>Docker</b> & <b>GitHub Actions</b></li>
+            <li>Collaborated with multilingual agile teams; translated Japanese specifications</li>
+        </ul>
+    </article>
+
+    <article class="mt-4 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-4">
+        <h3 class="font-semibold">Lead Backend Engineer / Agile Team Lead — Banglafire Solution Limited, Dhaka</h3>
+        <span class="text-sm text-zinc-500">Dec 2018 – Sep 2023</span>
+        <ul class="list-disc pl-5 text-sm mt-1">
+            <li>Led architecture of <b>modular Laravel</b> systems for scalable applications</li>
+            <li>Spearheaded <b>Dockerized CI/CD</b> adoption and release automation</li>
+            <li>Managed & mentored <b>10+ engineers</b>; implemented code review standards</li>
+            <li>Aligned technical delivery with product roadmaps; introduced release quality metrics</li>
+        </ul>
+    </article>
+
+    <article class="mt-4 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-4">
+        <h3 class="font-semibold">Software Engineer (Full Stack) — Banglafire Solution Limited, Dhaka</h3>
+        <span class="text-sm text-zinc-500">Nov 2017 – Nov 2018</span>
+        <ul class="list-disc pl-5 text-sm mt-1">
+            <li>Delivered features using <b>Laravel + Vue.js</b> with robust API integration</li>
+            <li>Partnered with QA to streamline test cycles and improve release reliability</li>
+            <li>Contributed to sprint retrospectives and iteration improvements</li>
+        </ul>
+    </article>
+
+    <article class="mt-4 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-4">
+        <h3 class="font-semibold">Junior Software Engineer — MEDIA365 Limited, Dhaka</h3>
+        <span class="text-sm text-zinc-500">Jan 2015 – Oct 2017</span>
+        <ul class="list-disc pl-5 text-sm mt-1">
+            <li>Developed multilingual content platforms with optimized backend logic and caching</li>
+            <li>Maintained and enhanced legacy systems; improved performance & documentation</li>
+        </ul>
+    </article>
+</section>
+
+<!-- Projects -->
+<section id="projects" class="max-w-5xl mx-auto px-4 py-6">
+    <h2 class="text-xl font-semibold">Key Projects & Contributions</h2>
+    <div class="grid md:grid-cols-2 gap-4 mt-4 text-sm">
+        <div class="border p-4 rounded-2xl dark:border-zinc-800"><b>API Architecture:</b> Designed & secured RESTful APIs for e-commerce, logistics, and education platforms.</div>
+        <div class="border p-4 rounded-2xl dark:border-zinc-800"><b>IoT & Real-Time:</b> Event-driven processing with queue/pub-sub for live tracking and notifications.</div>
+        <div class="border p-4 rounded-2xl dark:border-zinc-800"><b>DevOps Enablement:</b> Containerized stacks and automated AWS deployments.</div>
+        <div class="border p-4 rounded-2xl dark:border-zinc-800"><b>Cloud Infrastructure:</b> Microservices on EC2, RDS, S3 with proactive CloudWatch monitoring.</div>
+    </div>
+</section>
+
+<!-- Community -->
+<section id="community" class="max-w-5xl mx-auto px-4 py-6">
+    <h2 class="text-xl font-semibold">Community & Leadership</h2>
+    <ul class="list-disc pl-5 text-sm mt-2">
+        <li>Mentored junior & mid-level engineers on Laravel architecture and DevOps practices</li>
+        <li>Promoted clean-code culture, pair programming, and shared ownership</li>
+        <li>Organized knowledge-sharing sessions and team workshops</li>
+    </ul>
+</section>
+
+<!-- Certifications -->
+<section id="certs" class="max-w-5xl mx-auto px-4 py-6">
+    <h2 class="text-xl font-semibold">Certifications</h2>
+    <ul class="list-disc pl-5 text-sm mt-2">
+        <li><b>GeneXus 15 Junior Analyst</b> – GeneXus, 2019</li>
+        <li><b>ACMP 4.0 (Advanced Certificate in Management Professionals)</b> – IBA, University of Dhaka, 2019</li>
+        <li><b>DEV283x: Introduction to NodeJS</b> – Microsoft, 2018</li>
+    </ul>
+</section>
+
+<!-- Education -->
+<section id="education" class="max-w-5xl mx-auto px-4 py-6">
+    <h2 class="text-xl font-semibold">Education</h2>
+    <p class="mt-2"><b>BSc in Computer Science & Engineering</b><br>University of Science and Technology, Chittagong</p>
+    <p class="text-sm mt-1 text-zinc-600 dark:text-zinc-400">NCPC & ICPC participant · Focused on algorithms, systems thinking, and full-stack development</p>
+</section>
+
+<!-- Footer -->
+<footer class="max-w-5xl mx-auto px-4 py-10 text-sm text-zinc-600 dark:text-zinc-400">
+    © <span id="y"></span> MD RASEL AHMED
+</footer>
+
+<!-- Floating Back-to-Top button -->
+<a id="toTopBtn" href="#top" role="button" aria-live="polite"
+   class="fixed bottom-4 right-4 hidden rounded-full border border-zinc-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/90 backdrop-blur px-3 py-2 text-sm shadow-lg hover:bg-white dark:hover:bg-zinc-800 transition"
+   aria-label="Back to top">↑ Top</a>
+
+<script>
+    // theme toggles (desktop + mobile)
+    const root = document.documentElement;
+    const btnDesk = document.getElementById('theme');
+    const btnMob = document.getElementById('themeMobile');
+
+    function toggleTheme() {
+        root.classList.toggle('dark');
+        localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
+    }
+    if (btnDesk) btnDesk.addEventListener('click', toggleTheme);
+    if (btnMob) btnMob.addEventListener('click', toggleTheme);
+
+    // mobile menu
+    const menuBtn = document.getElementById('menuToggle');
+    const menu = document.getElementById('mobileMenu');
+    const iconOpen = document.getElementById('iconOpen');
+    const iconClose = document.getElementById('iconClose');
+    if (menuBtn && menu) {
+        menuBtn.addEventListener('click', () => {
+            const open = menu.classList.contains('hidden');
+            menu.classList.toggle('hidden');
+            menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+            iconOpen.classList.toggle('hidden');
+            iconClose.classList.toggle('hidden');
+        });
+    }
+
+    // floating back-to-top show/hide
+    const toTopBtn = document.getElementById('toTopBtn');
+    const showAfter = 300; // px
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > showAfter) toTopBtn.classList.remove('hidden');
+        else toTopBtn.classList.add('hidden');
+    });
+
+    // year
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Force light mode for the print, then restore user's theme
+    let _hadDark = false;
+    function beforePrint() {
+        _hadDark = root.classList.contains('dark');
+        root.classList.remove('dark');
+    }
+    function afterPrint() {
+        if (_hadDark) root.classList.add('dark');
+    }
+    window.addEventListener('beforeprint', beforePrint);
+    window.addEventListener('afterprint', afterPrint);
+    const mq = window.matchMedia && window.matchMedia('print');
+    if (mq && mq.addEventListener) {
+        mq.addEventListener('change', e => e.matches ? beforePrint() : afterPrint());
+    }
+
+    // Download buttons -> Print to PDF
+    document.getElementById('downloadPdf')?.addEventListener('click', () => window.print());
+    document.getElementById('downloadPdfMobile')?.addEventListener('click', () => window.print());
+</script>
+
+</body>
+</html>
