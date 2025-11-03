@@ -113,45 +113,33 @@
         a { text-underline-offset: 2px; }
         :focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
 
-        /* Paper & margins (smaller to fit in 2 pages) */
-        @page { size: A4; margin: 10mm; }
+        /* ---------- Sticky header-aware scrolling ----------
+           We reserve space so anchors don't hide behind the sticky header. */
+        :root { --header-h: 64px; }             /* JS sets exact height on load & resize */
+        html { scroll-padding-top: var(--header-h); }
+        section[id], main[id], article[id], h2[id], h3[id] {
+            scroll-margin-top: calc(var(--header-h) + 12px);
+        }
+
+        /* Target A4 paper + margins (browser print dialog → Save as PDF) */
+        @page { size: A4; margin: 14mm; }
 
         @media print {
             html, body { height: auto; }
             body {
-                background: #fff !important;
+                background: #fff !important; /* force light for print */
                 color: #000 !important;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
-                font-size: 13.25px;       /* compact base font */
-                line-height: 1.35;         /* tighter but readable */
             }
 
-            /* Use full printable width to fit more per page */
-            main, section { max-width: 100% !important; margin: 0 auto; }
+            /* Keep layout centered at a readable width for print */
+            main, section { max-width: 800px; margin: 0 auto; }
 
-            /* Remove header/nav controls from PDF entirely */
-            header { display: none !important; }
-            #toTopBtn { display: none !important; }
+            /* Remove header & UI from PDF */
+            header, #toTopBtn { display: none !important; }
 
-            /* Tighten vertical rhythm */
-            main { padding-top: 10px !important; padding-bottom: 8px !important; }
-            section { padding-top: 10px !important; padding-bottom: 10px !important; }
-
-            /* Typography scaling for print */
-            h1 { font-size: 1.6rem !important; margin-bottom: .25rem !important; }
-            h2 { font-size: 1.15rem !important; }
-            h3 { font-size: 1.0rem !important; }
-
-            /* Lists: less indent & spacing */
-            ul { margin-top: .25rem !important; padding-left: 1rem !important; }
-            li { margin-bottom: .2rem !important; }
-
-            /* Cards/blocks spacing & padding */
-            article { padding: .75rem !important; margin-top: .75rem !important; }
-            .grid { gap: .5rem !important; } /* reduce gaps in project grid */
-
-            /* Keep blocks together across pages where possible */
+            /* Avoid awkward page breaks */
             article, section, .rounded-2xl, .border, ul, li, h2, h3 { break-inside: avoid-page; }
         }
     </style>
@@ -180,6 +168,7 @@
         </nav>
 
         <div class="hidden sm:flex items-center gap-2">
+            <!-- Download to PDF (prints the page) -->
             <button id="downloadPdf" class="rounded-xl border border-zinc-200 dark:border-zinc-800 px-3 py-1.5 text-sm hover:bg-zinc-50 dark:hover:bg-zinc-900 transition">
                 Download PDF
             </button>
@@ -214,6 +203,7 @@
             <a href="#certs" class="hover:underline">Certs</a>
             <a href="#education" class="hover:underline">Education</a>
             <div class="h-px bg-zinc-200 dark:bg-zinc-800 my-1"></div>
+            <!-- Download to PDF (prints the page) -->
             <button id="downloadPdfMobile" class="rounded-lg border border-zinc-200 dark:border-zinc-800 px-3 py-1.5 text-sm text-center">
                 Download PDF
             </button>
@@ -399,7 +389,7 @@
    aria-label="Back to top">↑ Top</a>
 
 <script>
-    // theme toggles (desktop + mobile)
+    // --- Theme toggles (desktop + mobile) ---
     const root = document.documentElement;
     const btnDesk = document.getElementById('theme');
     const btnMob = document.getElementById('themeMobile');
@@ -411,11 +401,12 @@
     if (btnDesk) btnDesk.addEventListener('click', toggleTheme);
     if (btnMob) btnMob.addEventListener('click', toggleTheme);
 
-    // mobile menu
+    // --- Mobile menu open/close ---
     const menuBtn = document.getElementById('menuToggle');
     const menu = document.getElementById('mobileMenu');
     const iconOpen = document.getElementById('iconOpen');
     const iconClose = document.getElementById('iconClose');
+
     if (menuBtn && menu) {
         menuBtn.addEventListener('click', () => {
             const open = menu.classList.contains('hidden');
@@ -426,7 +417,29 @@
         });
     }
 
-    // floating back-to-top show/hide
+    // --- Close the mobile menu after tapping any in-page anchor ---
+    document.querySelectorAll('a[href^="#"]').forEach((link) => {
+        link.addEventListener('click', () => {
+            if (menu && !menu.classList.contains('hidden')) {
+                menu.classList.add('hidden');
+                if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
+                if (iconOpen) iconOpen.classList.remove('hidden');
+                if (iconClose) iconClose.classList.add('hidden');
+            }
+        });
+    });
+
+    // --- Sticky header-aware scrolling: measure header height and set scroll padding ---
+    const headerEl = document.querySelector('header');
+    function setScrollPadding() {
+        if (!headerEl) return;
+        const h = headerEl.offsetHeight;
+        document.documentElement.style.setProperty('--header-h', `${h}px`);
+    }
+    setScrollPadding();
+    window.addEventListener('resize', setScrollPadding);
+
+    // --- Floating back-to-top show/hide ---
     const toTopBtn = document.getElementById('toTopBtn');
     const showAfter = 300; // px
     window.addEventListener('scroll', () => {
@@ -434,10 +447,10 @@
         else toTopBtn.classList.add('hidden');
     });
 
-    // year
+    // --- Year ---
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // Force light mode for the print, then restore user's theme
+    // --- Force light mode during print, then restore user's theme ---
     let _hadDark = false;
     function beforePrint() {
         _hadDark = root.classList.contains('dark');
@@ -453,7 +466,7 @@
         mq.addEventListener('change', e => e.matches ? beforePrint() : afterPrint());
     }
 
-    // Download buttons -> Print to PDF
+    // --- Download buttons -> Print to PDF ---
     document.getElementById('downloadPdf')?.addEventListener('click', () => window.print());
     document.getElementById('downloadPdfMobile')?.addEventListener('click', () => window.print());
 </script>
