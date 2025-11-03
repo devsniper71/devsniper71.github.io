@@ -12,12 +12,13 @@
     <meta name="color-scheme" content="light dark" />
     <meta name="format-detection" content="telephone=no,address=no,email=no" />
 
-    <!-- Prevent dark-mode flash -->
+    <!-- Theme bootstrap (no flash, LIGHT by default)
+         - We only enable dark if the user explicitly picked it previously.
+         - OS/browser dark preference is ignored on first load. -->
     <script>
         (() => {
-            const t = localStorage.getItem('theme');
-            const prefers = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            if ((t === 'dark') || (!t && prefers)) document.documentElement.classList.add('dark');
+            const saved = localStorage.getItem('theme');
+            if (saved === 'dark') document.documentElement.classList.add('dark');
         })();
     </script>
 
@@ -110,44 +111,76 @@
     </script>
 
     <style>
+        /* -------------------- Base a11y & scroll behavior -------------------- */
         a { text-underline-offset: 2px; }
         :focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
 
-        /* ---------- Sticky header-aware scrolling ----------
-           We reserve space so anchors don't hide behind the sticky header. */
-        :root { --header-h: 64px; }             /* JS sets exact height on load & resize */
+        /* Sticky header-aware scrolling (JS maintains --header-h) */
+        :root { --header-h: 64px; }
         html { scroll-padding-top: var(--header-h); }
-        section[id], main[id], article[id], h2[id], h3[id] {
-            scroll-margin-top: calc(var(--header-h) + 12px);
-        }
+        section[id], main[id], article[id], h2[id], h3[id] { scroll-margin-top: calc(var(--header-h) + 12px); }
 
-        /* Target A4 paper + margins (browser print dialog → Save as PDF) */
-        @page { size: A4; margin: 14mm; }
+        /* -------------------- Print tuning (fits in 2 A4 pages) --------------------
+           If you need even tighter output, tweak:
+             1) body font-size (12.5px → 12px)
+             2) body zoom (0.94 → 0.92)  */
+        @page { size: A4; margin: 12mm; }
 
         @media print {
             html, body { height: auto; }
             body {
-                background: #fff !important; /* force light for print */
+                background: #fff !important;
                 color: #000 !important;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
+                font-size: 12.5px; /* (1) “knob” */
+                line-height: 1.25;
+                zoom: 0.94;       /* (2) “knob” (Chrome/WebKit fallback) */
             }
 
-            /* Keep layout centered at a readable width for print */
-            main, section { max-width: 800px; margin: 0 auto; }
+            main, section { max-width: 820px; margin: 0 auto; }
 
-            /* Remove header & UI from PDF */
+            /* Remove navigation / floating UI in PDF */
             header, #toTopBtn { display: none !important; }
 
-            /* Avoid awkward page breaks */
+            /* Compact headings (print only) */
+            h1 { font-size: 20px; margin: 4px 0 8px; }
+            h2 { font-size: 16px; margin: 8px 0 6px; }
+            h3 { font-size: 14px; margin: 6px 0 4px; }
+
+            /* Tighten general spacing */
+            p { margin: 4px 0 6px; }
+            ul { margin: 4px 0 0 1rem; padding: 0; }
+            li { margin: 0 0 3px; }
+
+            section { padding: 8px 12px !important; }
+            article { padding: 10px !important; margin-top: 8px !important; border-radius: 12px !important; }
+
+            .grid { row-gap: 6px !important; column-gap: 12px !important; }
+            #highlights ul { gap: 6px !important; }
+            .rounded-2xl { border-radius: 12px !important; }
+            .list-disc { list-style-position: outside; }
+
+            /* Don’t split cards/sections across pages */
             article, section, .rounded-2xl, .border, ul, li, h2, h3 { break-inside: avoid-page; }
+
+            /* Trim some large utility paddings/margins */
+            .pt-10 { padding-top: 12px !important; }
+            .pb-10 { padding-bottom: 12px !important; }
+            .py-6 { padding-top: 8px !important; padding-bottom: 8px !important; }
+            .pb-6 { padding-bottom: 8px !important; }
+            .mt-3 { margin-top: 6px !important; }
+            .mt-4 { margin-top: 8px !important; }
+            .mt-6 { margin-top: 10px !important; }
+            .mb-6 { margin-bottom: 8px !important; }
+            .px-4 { padding-left: 12px !important; padding-right: 12px !important; }
         }
     </style>
 </head>
 
 <body class="bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 font-sans antialiased">
 
-<!-- Skip link (a11y) -->
+<!-- Skip link -->
 <a href="#summary" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded px-3 py-1 text-sm">Skip to content</a>
 
 <!-- Header -->
@@ -172,6 +205,7 @@
             <button id="downloadPdf" class="rounded-xl border border-zinc-200 dark:border-zinc-800 px-3 py-1.5 text-sm hover:bg-zinc-50 dark:hover:bg-zinc-900 transition">
                 Download PDF
             </button>
+            <!-- Theme toggle -->
             <button id="theme" class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-1.5" aria-label="Toggle dark mode">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden dark:inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364-1.414 1.414M7.05 16.95l-1.414 1.414m0-11.314L7.05 7.05m10.9 9.9 1.414 1.414M12 8.25A3.75 3.75 0 1 1 8.25 12 3.75 3.75 0 0 1 12 8.25Z"/></svg>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 dark:hidden" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.75 12.003c0 5.385-4.365 9.75-9.75 9.75-3.37 0-6.34-1.682-8.147-4.243a.75.75 0 0 1 .928-1.117A7.5 7.5 0 0 0 12.75 4.5a7.5 7.5 0 0 0 6.607 11.219.75.75 0 0 1 .928 1.117 9.724 9.724 0 0 1-1.531 1.64 9.72 9.72 0 0 0 3-7.473Z"/></svg>
@@ -203,7 +237,6 @@
             <a href="#certs" class="hover:underline">Certs</a>
             <a href="#education" class="hover:underline">Education</a>
             <div class="h-px bg-zinc-200 dark:bg-zinc-800 my-1"></div>
-            <!-- Download to PDF (prints the page) -->
             <button id="downloadPdfMobile" class="rounded-lg border border-zinc-200 dark:border-zinc-800 px-3 py-1.5 text-sm text-center">
                 Download PDF
             </button>
@@ -211,36 +244,21 @@
     </div>
 </header>
 
-<!-- Hero (Main) -->
+<!-- Main -->
 <main id="top" role="main" class="max-w-5xl mx-auto px-4 pt-10 pb-6">
     <h1 class="text-3xl font-bold uppercase">MD RASEL AHMED</h1>
 
-    <!-- Contact line -->
+    <!-- Contact line (icons only) -->
     <p class="mt-3 text-sm flex flex-wrap items-center gap-x-3 gap-y-2">
-        <a href="mailto:devsniper71@gmail.com" aria-label="Email: devsniper71@gmail.com" class="inline-flex items-center hover:opacity-80">
-            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4a2 2 0 0 0-2 2v.4l10 6.25L22 6.4V6a2 2 0 0 0-2-2Zm2 5.2-10 6.25L2 9.2V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9.2Z"/></svg>
-            <span class="sr-only">Email</span>
-        </a>
-        <span aria-hidden="true" role="presentation">·</span>
-        <a href="tel:+8801782449977" aria-label="Call: +880 1782-449-977" class="inline-flex items-center hover:opacity-80">
-            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.25 11.36 11.36 0 0 0 3.56.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 8a1 1 0 0 1 1-1h2.5a1 1 0 0 1 1 1c0 1.23.2 2.41.57 3.56a1 1 0 0 1-.25 1.02l-2.2 2.2Z"/></svg>
-            <span class="sr-only">Phone</span>
-        </a>
-        <span aria-hidden="true" role="presentation">·</span>
-        <a href="https://wa.me/8801782449977" target="_blank" rel="me noopener noreferrer" aria-label="WhatsApp" class="inline-flex items-center hover:opacity-80">
-            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163A11.867 11.867 0 0111.99 0C18.627 0 24 5.373 24 12.01S18.627 24.02 11.99 24.02h-.005A11.9 11.9 0 016.13 22.3L.057 24zm6.597-3.807a9.8 9.8 0 005.33 1.55h.004c5.428 0 9.86-4.434 9.862-9.864C21.853 6.45 17.42 2.02 11.99 2.02a9.83 9.83 0 00-8.452 14.74l.537.852-1 3.66 3.58-.954.892.505zM8.68 7.64c.21-.47.43-.48.63-.49.16-.007.34-.006.52-.006.18 0 .47-.067.72.34.25.406.85 1.405.92 1.506.07.1.12.22.02.35-.1.13-.15.21-.3.33-.15.12-.31.27-.45.46-.15.19-.31.39-.13.7.18.31.8 1.32 1.72 2.14 1.18 1.05 2.17 1.38 2.48 1.53.31.15.49.13.67-.08.18-.21.77-.9.98-1.22.21-.32.41-.27.67-.16.26.11 1.64.77 1.92.91.28.14.47.21.54.33.07.12.07.7-.17 1.36-.24.66-1.4 1.31-1.92 1.4-.49.09-1.12.13-1.81-.11-.42-.14-1-.32-1.73-.63-3.06-1.32-5.05-4.41-5.2-4.62-.15-.21-1.24-1.64-1.24-3.14 0-1.5.79-2.24 1.07-2.55z"/></svg>
-            <span class="sr-only">WhatsApp</span>
-        </a>
-        <span aria-hidden="true" role="presentation">·</span>
-        <a href="https://linkedin.com/in/devsniper71" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn" class="inline-flex items-center hover:opacity-80">
-            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 102.5 6a2.5 2.5 0 002.48-2.5zM3 8.98h4v12H3v-12zM9 8.98h3.83v1.64h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.65 4.78 6.09v6.22h-4v-5.51c0-1.31-.02-2.99-1.82-2.99-1.82 0-2.1 1.42-2.1 2.89v5.61H9v-12z"/></svg>
-            <span class="sr-only">LinkedIn</span>
-        </a>
-        <span aria-hidden="true" role="presentation">·</span>
-        <a href="https://github.com/devsniper71" target="_blank" rel="me noopener noreferrer" aria-label="GitHub" class="inline-flex items-center hover:opacity-80">
-            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.98 5.24.98 11.5c0 4.85 3.14 8.97 7.5 10.42.55.1.75-.24.75-.53 0-.26-.01-1.11-.02-2.02-3.05.66-3.7-1.3-3.7-1.3-.5-1.28-1.22-1.62-1.22-1.62-1-.69.08-.68.08-.68 1.1.08 1.67 1.12 1.67 1.12.98 1.67 2.56 1.19 3.18.9.1-.71.38-1.19.68-1.46-2.44-.28-5-1.22-5-5.44 0-1.2.43-2.18 1.12-2.95-.11-.28-.49-1.42.11-2.95 0 0 .93-.3 3.05 1.12.88-.24 1.82-.36 2.76-.36.94 0 1.88.12 2.76.36 2.12-1.42 3.05-1.12 3.05-1.12.6 1.53.22 2.67.11 2.95.69.77 1.12 1.75 1.12 2.95 0 4.23-2.56 5.15-5 5.43.39.34.73 1 .73 2.03 0 1.47-.01 2.65-.01 3.01 0 .29.2.64.75.53 4.36-1.45 7.5-5.57 7.5-10.42C23.02 5.24 18.27.5 12 .5z"/></svg>
-            <span class="sr-only">GitHub</span>
-        </a>
+        <a href="mailto:devsniper71@gmail.com" aria-label="Email: devsniper71@gmail.com" class="inline-flex items-center hover:opacity-80"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4a2 2 0 0 0-2 2v.4l10 6.25L22 6.4V6a2 2 0 0 0-2-2Zm2 5.2-10 6.25L2 9.2V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9.2Z"/></svg><span class="sr-only">Email</span></a>
+        <span aria-hidden="true">·</span>
+        <a href="tel:+8801782449977" aria-label="Call: +880 1782-449-977" class="inline-flex items-center hover:opacity-80"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.25 11.36 11.36 0 0 0 3.56.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 8a1 1 0 0 1 1-1h2.5a1 1 0 0 1 1 1c0 1.23.2 2.41.57 3.56a1 1 0 0 1-.25 1.02l-2.2 2.2Z"/></svg><span class="sr-only">Phone</span></a>
+        <span aria-hidden="true">·</span>
+        <a href="https://wa.me/8801782449977" target="_blank" rel="me noopener noreferrer" aria-label="WhatsApp" class="inline-flex items-center hover:opacity-80"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163A11.867 11.867 0 0111.99 0C18.627 0 24 5.373 24 12.01S18.627 24.02 11.99 24.02h-.005A11.9 11.9 0 016.13 22.3L.057 24zm6.597-3.807a9.8 9.8 0 005.33 1.55h.004c5.428 0 9.86-4.434 9.862-9.864C21.853 6.45 17.42 2.02 11.99 2.02a9.83 9.83 0 00-8.452 14.74l.537.852-1 3.66 3.58-.954.892.505zM8.68 7.64c.21-.47.43-.48.63-.49.16-.007.34-.006.52-.006.18 0 .47-.067.72.34.25.406.85 1.405.92 1.506.07.1.12.22.02.35-.1.13-.15.21-.3.33-.15.12-.31.27-.45.46-.15.19-.31.39-.13.7.18.31.8 1.32 1.72 2.14 1.18 1.05 2.17 1.38 2.48 1.53.31.15.49.13.67-.08.18-.21.77-.9.98-1.22.21-.32.41-.27.67-.16.26.11 1.64.77 1.92.91.28.14.47.21.54.33.07.12.07.7-.17 1.36-.24.66-1.4 1.31-1.92 1.4-.49.09-1.12.13-1.81-.11-.42-.14-1-.32-1.73-.63-3.06-1.32-5.05-4.41-5.2-4.62-.15-.21-1.24-1.64-1.24-3.14 0-1.5.79-2.24 1.07-2.55z"/></svg><span class="sr-only">WhatsApp</span></a>
+        <span aria-hidden="true">·</span>
+        <a href="https://linkedin.com/in/devsniper71" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn" class="inline-flex items-center hover:opacity-80"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 102.5 6a2.5 2.5 0 002.48-2.5zM3 8.98h4v12H3v-12zM9 8.98h3.83v1.64h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.65 4.78 6.09v6.22h-4v-5.51c0-1.31-.02-2.99-1.82-2.99-1.82 0-2.1 1.42-2.1 2.89v5.61H9v-12z"/></svg><span class="sr-only">LinkedIn</span></a>
+        <span aria-hidden="true">·</span>
+        <a href="https://github.com/devsniper71" target="_blank" rel="me noopener noreferrer" aria-label="GitHub" class="inline-flex items-center hover:opacity-80"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.98 5.24.98 11.5c0 4.85 3.14 8.97 7.5 10.42.55.1.75-.24.75-.53 0-.26-.01-1.11-.02-2.02-3.05.66-3.7-1.3-3.7-1.3-.5-1.28-1.22-1.62-1.22-1.62-1-.69.08-.68.08-.68 1.1.08 1.67 1.12 1.67 1.12.98 1.67 2.56 1.19 3.18.9.1-.71.38-1.19.68-1.46-2.44-.28-5-1.22-5-5.44 0-1.2.43-2.18 1.12-2.95-.11-.28-.49-1.42.11-2.95 0 0 .93-.3 3.05 1.12.88-.24 1.82-.36 2.76-.36.94 0 1.88.12 2.76.36 2.12-1.42 3.05-1.12 3.05-1.12.6 1.53.22 2.67.11 2.95.69.77 1.12 1.75 1.12 2.95 0 4.23-2.56 5.15-5 5.43.39.34.73 1 .73 2.03 0 1.47-.01 2.65-.01 3.01 0 .29.2.64.75.53 4.36-1.45 7.5-5.57 7.5-10.42C23.02 5.24 18.27.5 12 .5z"/></svg><span class="sr-only">GitHub</span></a>
     </p>
 
     <p class="mt-3 text-lg text-zinc-700 dark:text-zinc-300">Backend Engineer · Laravel · PHP · AWS · Cloud & DevOps</p>
@@ -249,14 +267,10 @@
 <!-- Summary -->
 <section id="summary" class="max-w-5xl mx-auto px-4 py-6">
     <h2 class="text-xl font-semibold">Professional Summary</h2>
-    <p class="mt-2">
-        Innovative <strong>Backend Engineer</strong> with 10+ years designing and optimizing <strong>Laravel-based cloud systems</strong>.
-        Expert in <strong>AWS</strong>, containerized <strong>microservices</strong>, and <strong>CI/CD automation</strong>. Proven record of
-        modernizing legacy systems, improving performance, and leading distributed teams across Japan, UK, and US.
-    </p>
+    <p class="mt-2">Innovative <strong>Backend Engineer</strong> with 10+ years designing and optimizing <strong>Laravel-based cloud systems</strong>. Expert in <strong>AWS</strong>, containerized <strong>microservices</strong>, and <strong>CI/CD automation</strong>. Proven record of modernizing legacy systems, improving performance, and leading distributed teams across Japan, UK, and US.</p>
 </section>
 
-<!-- Key Highlights -->
+<!-- Highlights -->
 <section id="highlights" class="max-w-5xl mx-auto px-4 pb-2">
     <h2 class="text-xl font-semibold">Key Highlights</h2>
     <ul class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
@@ -383,93 +397,83 @@
     © <span id="y"></span> MD RASEL AHMED
 </footer>
 
-<!-- Floating Back-to-Top button -->
+<!-- Floating Back-to-Top -->
 <a id="toTopBtn" href="#top" role="button" aria-live="polite"
    class="fixed bottom-4 right-4 hidden rounded-full border border-zinc-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/90 backdrop-blur px-3 py-2 text-sm shadow-lg hover:bg-white dark:hover:bg-zinc-800 transition"
    aria-label="Back to top">↑ Top</a>
 
 <script>
-    // --- Theme toggles (desktop + mobile) ---
+    /* -------------------- Theme toggles -------------------- */
     const root = document.documentElement;
     const btnDesk = document.getElementById('theme');
-    const btnMob = document.getElementById('themeMobile');
+    const btnMob  = document.getElementById('themeMobile');
 
     function toggleTheme() {
         root.classList.toggle('dark');
         localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
     }
     if (btnDesk) btnDesk.addEventListener('click', toggleTheme);
-    if (btnMob) btnMob.addEventListener('click', toggleTheme);
+    if (btnMob)  btnMob.addEventListener('click', toggleTheme);
 
-    // --- Mobile menu open/close ---
-    const menuBtn = document.getElementById('menuToggle');
-    const menu = document.getElementById('mobileMenu');
+    /* -------------------- Mobile menu -------------------- */
+    const menuBtn  = document.getElementById('menuToggle');
+    const menu     = document.getElementById('mobileMenu');
     const iconOpen = document.getElementById('iconOpen');
-    const iconClose = document.getElementById('iconClose');
+    const iconClose= document.getElementById('iconClose');
 
     if (menuBtn && menu) {
         menuBtn.addEventListener('click', () => {
-            const open = menu.classList.contains('hidden');
+            const opening = menu.classList.contains('hidden');
             menu.classList.toggle('hidden');
-            menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+            menuBtn.setAttribute('aria-expanded', opening ? 'true' : 'false');
             iconOpen.classList.toggle('hidden');
             iconClose.classList.toggle('hidden');
         });
     }
 
-    // --- Close the mobile menu after tapping any in-page anchor ---
-    document.querySelectorAll('a[href^="#"]').forEach((link) => {
-        link.addEventListener('click', () => {
+    // Close the mobile menu after navigating to an in-page anchor
+    document.querySelectorAll('a[href^="#"]').forEach((a) => {
+        a.addEventListener('click', () => {
             if (menu && !menu.classList.contains('hidden')) {
                 menu.classList.add('hidden');
-                if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
+                if (menuBtn)  menuBtn.setAttribute('aria-expanded', 'false');
                 if (iconOpen) iconOpen.classList.remove('hidden');
-                if (iconClose) iconClose.classList.add('hidden');
+                if (iconClose)iconClose.classList.add('hidden');
             }
         });
     });
 
-    // --- Sticky header-aware scrolling: measure header height and set scroll padding ---
+    /* -------------------- Header-aware scroll padding -------------------- */
     const headerEl = document.querySelector('header');
     function setScrollPadding() {
         if (!headerEl) return;
-        const h = headerEl.offsetHeight;
-        document.documentElement.style.setProperty('--header-h', `${h}px`);
+        document.documentElement.style.setProperty('--header-h', `${headerEl.offsetHeight}px`);
     }
     setScrollPadding();
     window.addEventListener('resize', setScrollPadding);
 
-    // --- Floating back-to-top show/hide ---
+    /* -------------------- Back-to-top button -------------------- */
     const toTopBtn = document.getElementById('toTopBtn');
-    const showAfter = 300; // px
     window.addEventListener('scroll', () => {
-        if (window.scrollY > showAfter) toTopBtn.classList.remove('hidden');
+        if (window.scrollY > 300) toTopBtn.classList.remove('hidden');
         else toTopBtn.classList.add('hidden');
     });
 
-    // --- Year ---
+    /* -------------------- Footer year -------------------- */
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // --- Force light mode during print, then restore user's theme ---
-    let _hadDark = false;
-    function beforePrint() {
-        _hadDark = root.classList.contains('dark');
-        root.classList.remove('dark');
-    }
-    function afterPrint() {
-        if (_hadDark) root.classList.add('dark');
-    }
+    /* -------------------- Print: force light, then restore -------------------- */
+    let hadDark = false;
+    function beforePrint() { hadDark = root.classList.contains('dark'); root.classList.remove('dark'); }
+    function afterPrint()  { if (hadDark) root.classList.add('dark'); }
     window.addEventListener('beforeprint', beforePrint);
-    window.addEventListener('afterprint', afterPrint);
+    window.addEventListener('afterprint',  afterPrint);
     const mq = window.matchMedia && window.matchMedia('print');
-    if (mq && mq.addEventListener) {
-        mq.addEventListener('change', e => e.matches ? beforePrint() : afterPrint());
-    }
+    if (mq && mq.addEventListener) mq.addEventListener('change', e => e.matches ? beforePrint() : afterPrint());
 
-    // --- Download buttons -> Print to PDF ---
+    /* -------------------- “Download PDF” (print dialog) -------------------- */
     document.getElementById('downloadPdf')?.addEventListener('click', () => window.print());
     document.getElementById('downloadPdfMobile')?.addEventListener('click', () => window.print());
 </script>
-
 </body>
 </html>
