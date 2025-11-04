@@ -72,15 +72,23 @@
         html { scroll-padding-top: var(--header-h); }
         section[id], main[id], article[id], h2[id], h3[id] { scroll-margin-top: calc(var(--header-h) + 12px); }
 
-        /* Brand link hover: subtle, professional underline grow */
-        .brand-link { position: relative; transition: color 200ms ease; }
-        .brand-link::after {
-            content: ""; position: absolute; left: 0; bottom: -2px; height: 2px; width: 0;
-            background: currentColor; transition: width 220ms ease;
+        /* Brand link hover: clean, executive underline accent (no jump) */
+        .brand-link {
+            position: relative;
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            transition: color .25s ease, border-color .25s ease;
         }
-        .brand-link:hover, .brand-link:focus-visible { color: rgb(37 99 235); }
-        .dark .brand-link:hover, .dark .brand-link:focus-visible { color: rgb(147 197 253); }
-        .brand-link:hover::after, .brand-link:focus-visible::after { width: 100%; }
+        .brand-link:hover,
+        .brand-link:focus-visible {
+            color: rgb(37 99 235);
+            border-color: rgb(37 99 235);
+        }
+        .dark .brand-link:hover,
+        .dark .brand-link:focus-visible {
+            color: rgb(147 197 253);
+            border-color: rgb(147 197 253);
+        }
 
         /* Modern nav */
         .nav-pill { position:relative; border-radius:9999px; padding:.25rem .5rem; transition:color 200ms ease; }
@@ -247,7 +255,7 @@
 <!-- Hero (screen) -->
 <main id="top" role="main" class="max-w-5xl mx-auto px-4 pt-10 pb-6">
     <h1 class="text-3xl font-bold uppercase">
-        <a href="https://devsniper71.github.io/" class="hover:underline decoration-2 underline-offset-4 hover:decoration-blue-600/60 dark:hover:decoration-blue-300/60" rel="noopener">MD RASEL AHMED</a>
+        <a href="https://devsniper71.github.io/" class="brand-link" rel="noopener">MD RASEL AHMED</a>
     </h1>
 
     <!-- Contact icons (screen) -->
