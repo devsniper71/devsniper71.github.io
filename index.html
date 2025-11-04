@@ -12,7 +12,7 @@
     <meta name="color-scheme" content="light dark" />
     <meta name="format-detection" content="telephone=no,address=no,email=no" />
 
-    <!-- Persist user theme, default to light -->
+    <!-- Persist user theme (default: light) before first paint -->
     <script>
         (() => {
             const t = localStorage.getItem('theme');
@@ -32,7 +32,7 @@
             theme: {
                 extend: {
                     fontFamily: { sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','Ubuntu','Cantarell'] },
-                    screens: { print: { 'raw': 'print' } }
+                    screens: { print: { raw: 'print' } }
                 }
             },
             darkMode: 'class'
@@ -66,9 +66,10 @@
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","url":"https://devsniper71.github.io/","name":"MD RASEL AHMED — Portfolio","inLanguage":"en","potentialAction":{"@type":"SearchAction","target":"https://www.google.com/search?q=site:devsniper71.github.io+{search_term_string}","query-input":"required name=search_term_string"}}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Summary","item":"https://devsniper71.github.io/#summary"},{"@type":"ListItem","position":2,"name":"Experience","item":"https://devsniper71.github.io/#experience"},{"@type":"ListItem","position":3,"name":"Projects","item":"https://devsniper71.github.io/#projects"}]}</script>
 
+    <!-- ===== Custom CSS ===== -->
     <style>
-        /* a11y & layout */
-        a { text-underline-offset: 2px; }
+        /* --- Base a11y & layout --- */
+        a { text-underline-offset: 2px; } /* won’t force an underline; only offsets when present */
         :focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
         :root { --header-h: 64px; }
         html { scroll-padding-top: var(--header-h); -webkit-text-size-adjust: 100%; }
@@ -77,27 +78,33 @@
         /* Safe-area for notched phones */
         body { padding-left: max(0px, env(safe-area-inset-left)); padding-right: max(0px, env(safe-area-inset-right)); }
         header { padding-left: max(0px, env(safe-area-inset-left)); padding-right: max(0px, env(safe-area-inset-right)); }
-        /* Improve small-screen typography scales a touch */
+
+        /* Slightly friendlier h1 scale on small screens */
         h1 { font-size: clamp(1.5rem, 1.2rem + 2vw, 1.875rem); }
 
-        /* Brand link hover */
-        .brand-link { position: relative; transition: color 200ms ease; }
+        /* --- Brand link: animated underline on hover/focus --- */
+        .brand-link { position: relative; transition: color 200ms ease; text-decoration: none; }
         .brand-link::after { content:""; position:absolute; left:0; bottom:-2px; height:2px; width:0; background:currentColor; transition:width 220ms ease; }
         .brand-link:hover, .brand-link:focus-visible { color: rgb(37 99 235); }
         .dark .brand-link:hover, .dark .brand-link:focus-visible { color: rgb(147 197 253); }
         .brand-link:hover::after, .brand-link:focus-visible::after { width:100%; }
+        .brand-link--hero { font-weight: 700; }
+        .brand-link--hero::after { height:3px; bottom:-6px; }
 
-        /* Modern nav */
-        .nav-pill { position:relative; border-radius:9999px; padding:.375rem .625rem; transition:color 200ms ease; }
+        /* --- Nav pills (active gets blue “pill”, not underline) --- */
+        .nav-pill { position:relative; border-radius:9999px; padding:.375rem .625rem; transition:color 200ms ease; text-decoration: none; }
         .nav-pill::before { content:""; position:absolute; inset:0; border-radius:inherit; background:radial-gradient(120% 120% at 50% 50%, rgba(59,130,246,.12), rgba(59,130,246,0)); transform:scale(.85); opacity:0; transition:transform 220ms ease, opacity 220ms ease; }
         .nav-pill:hover::before, .nav-pill:focus-visible::before { opacity:1; transform:scale(1); }
         .nav-pill:hover { color:rgb(37 99 235); } .dark .nav-pill:hover { color:rgb(147 197 253); }
-        .nav-underline { background-image:linear-gradient(currentColor,currentColor); background-repeat:no-repeat; background-size:0% 1.5px; background-position:0 100%; transition:background-size 220ms ease; }
-        .nav-pill:hover .nav-underline { background-size:100% 1.5px; }
         .nav-pill[aria-current="true"] { color:rgb(37 99 235); } .dark .nav-pill[aria-current="true"] { color:rgb(147 197 253); }
         .nav-pill[aria-current="true"]::before { opacity:1; transform:scale(1); background:radial-gradient(120% 120% at 50% 50%, rgba(59,130,246,.18), rgba(59,130,246,0)); }
 
-        /* Icon buttons — 44px tap size on mobile */
+        /* NAV UNDERLINE: default off; only show on hover/focus (no active underline) */
+        .nav-underline { background-image:linear-gradient(currentColor,currentColor); background-repeat:no-repeat; background-position:0 100%; background-size:0% 1.5px; transition:background-size 220ms ease; }
+        .nav-pill:hover .nav-underline,
+        .nav-pill:focus-visible .nav-underline { background-size:100% 1.5px; }
+
+        /* --- Icon buttons (comfortable hit area) --- */
         .icon-btn { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:12px; border:1px solid rgb(228 228 231); background:rgba(255,255,255,.6); transition:transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease, background-color 200ms ease; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
         @media (min-width:640px){ .icon-btn{ width:36px; height:36px; } }
         .icon-btn:hover { transform:translateY(-2px); border-color:rgba(59,130,246,.5); background:linear-gradient(180deg, rgba(59,130,246,.06), rgba(255,255,255,.4)); box-shadow:0 8px 20px rgba(0,0,0,.08); }
@@ -105,7 +112,7 @@
         .dark .icon-btn { border-color:rgb(39 39 42); background:rgba(24,24,27,.6); }
         .dark .icon-btn:hover { background:linear-gradient(180deg, rgba(59,130,246,.12), rgba(24,24,27,.7)); box-shadow:0 10px 28px rgba(0,0,0,.35); border-color:rgba(147,197,253,.4); }
 
-        /* Section cards */
+        /* --- Section cards --- */
         .section-card { position:relative; border:1px solid rgba(228,228,231,.9); border-radius:16px; transition:transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease, background-color 220ms ease; }
         .section-card::before { content:""; position:absolute; left:-1px; top:10px; bottom:10px; width:3px; border-radius:2px; background:linear-gradient(180deg, rgba(59,130,246,0), rgba(59,130,246,0)); transition:background 220ms ease, width 220ms ease, opacity 220ms ease; opacity:0; }
         .section-card:hover { transform:translateY(-2px); box-shadow:0 10px 30px rgba(0,0,0,.07); border-color:rgba(59,130,246,.35); background:linear-gradient(180deg, rgba(59,130,246,.04), transparent); }
@@ -119,7 +126,7 @@
         /* Motion safety */
         @media (prefers-reduced-motion: reduce) { * { transition:none !important; animation:none !important; } }
 
-        /* ===== Print: compact résumé (A4) ===== */
+        /* --- Print: compact résumé (A4) --- */
         @page { size: A4; margin: 10mm; }
         @media print {
             html, body { height:auto; }
@@ -157,11 +164,11 @@
             .section-card::before { display: none !important; }
         }
 
-        /* ======= Requested tweaks (neutral B/W on summary) ======= */
+        /* Neutral B/W summary on screen */
         #summary.section-card { border-color: rgba(0,0,0,.12) !important; background: transparent !important; box-shadow: none !important; }
         #summary.section-card:hover, #summary.section-card.inview { border-color: rgba(0,0,0,.28) !important; background: transparent !important; }
 
-        /* Disable active scroll/accents while printing (JS toggles .printing) */
+        /* Disable accents while printing (JS toggles .printing) */
         html.printing { scroll-behavior: auto !important; }
         .printing .section-card::before { display: none !important; }
         .printing .section-card { background: transparent !important; box-shadow: none !important; border-color: rgba(0,0,0,.18) !important; }
@@ -176,7 +183,7 @@
 <!-- Header (opaque on mobile, translucent on sm+) -->
 <header class="sticky top-0 z-30 backdrop-blur border-b border-zinc-200/70 dark:border-zinc-800 bg-white/95 dark:bg-zinc-950/95 sm:bg-white/70 sm:dark:bg-zinc-950/60">
     <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-        <a href="https://devsniper71.github.io/" class="brand-link font-semibold tracking-tight uppercase focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded-sm" aria-label="Go to home">MD RASEL AHMED</a>
+        <a href="https://devsniper71.github.io/" class="brand-link brand-link--hero font-semibold tracking-tight uppercase focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded-sm" aria-label="Go to home">MD RASEL AHMED</a>
 
         <nav class="hidden sm:flex gap-2 text-sm" role="navigation" aria-label="Primary">
             <a href="#summary"    class="nav-pill"><span class="nav-underline">Summary</span></a>
@@ -191,16 +198,25 @@
 
         <div class="hidden sm:flex items-center gap-2">
             <button id="downloadPdf" type="button" class="rounded-xl border border-zinc-200 dark:border-zinc-800 px-3 py-1.5 text-sm hover:bg-zinc-50 dark:hover:bg-zinc-900 transition" aria-label="Download as PDF">Download PDF</button>
-            <button id="theme" type="button" class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-1.5" aria-label="Toggle dark mode">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden dark:inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364-1.414 1.414M7.05 16.95l-1.414 1.414m0-11.314L7.05 7.05m10.9 9.9 1.414 1.414M12 8.25A3.75 3.75 0 1 1 8.25 12 3.75 3.75 0 0 1 12 8.25Z"/></svg>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 dark:hidden" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.75 12.003c0 5.385-4.365 9.75-9.75 9.75-3.37 0-6.34-1.682-8.147-4.243a.75.75 0 0 1 .928-1.117A7.5 7.5 0 0 0 12.75 4.5a7.5 7.5 0  0 0 6.607 11.219.75.75 0 0 1 .928 1.117 9.724 9.724 0  0 1-1.531 1.64 9.72 9.72 0  0 0 3-7.473Z"/></svg>
+
+            <!-- Theme toggle: moon shown in light mode (switch to dark), sun shown in dark mode (switch to light) -->
+            <button id="theme" type="button" class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-1.5" aria-label="Switch to dark mode">
+                <!-- Sun icon (visible in dark mode) -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden dark:inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364-1.414 1.414M7.05 16.95l-1.414 1.414m0-11.314L7.05 7.05m10.9 9.9 1.414 1.414M12 8.25A3.75 3.75 0 1 1 8.25 12 3.75 3.75 0 0 1 12 8.25Z"/>
+                </svg>
+                <!-- Moon icon (visible in light mode) -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 dark:hidden" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M21.75 12.003c0 5.385-4.365 9.75-9.75 9.75-3.37 0-6.34-1.682-8.147-4.243a.75.75 0 0 1 .928-1.117A7.5 7.5 0 0 0 12.75 4.5a7.5 7.5 0  0 0 6.607 11.219.75.75 0 0 1 .928 1.117 9.724 9.724 0  0 1-1.531 1.64 9.72 9.72 0  0 0 3-7.473Z"/>
+                </svg>
             </button>
         </div>
 
+        <!-- Mobile controls -->
         <div class="flex sm:hidden items-center gap-2">
-            <button id="themeMobile" type="button" class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-1.5" aria-label="Toggle dark mode">
+            <button id="themeMobile" type="button" class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-1.5" aria-label="Switch to dark mode">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden dark:inline" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364-1.414 1.414M7.05 16.95l-1.414 1.414m0-11.314L7.05 7.05m10.9 9.9 1.414 1.414M12 8.25A3.75 3.75 0 1 1 8.25 12 3.75 3.75 0 0 1 12 8.25Z"/></svg>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 dark:hidden" viewBox="0 0 24 24" fill="currentColor"><path d="M21.75 12.003c0 5.385-4.365 9.75-9.75 9.75-3.37 0-6.34-1.682-8.147-4.243a.75.75 0 0 1 .928-1.117A7.5 7.5 0  0 0 12.75 4.5a7.5 7.5 0  0 0 6.607 11.219.75.75 0  0 1 .928 1.117 9.724 9.724 0  0 1-1.531 1.64 9.72 9.72 0  0 0 3-7.473Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 dark:hidden" viewBox="0 0 24 24" fill="currentColor"><path d="M21.75 12.003c0 5.385-4.365 9.75-9.75 9.75-3.37 0-6.34-1.682-8.147-4.243a.75.75 0 0 1 .928-1.117A7.5 7.5 0 0 0 12.75 4.5a7.5 7.5 0  0 0 6.607 11.219.75.75 0 0 1 .928 1.117 9.724 9.724 0  0 1-1.531 1.64 9.72 9.72 0  0 0 3-7.473Z"/></svg>
             </button>
             <button id="menuToggle" type="button" class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-1.5" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
                 <svg id="iconOpen" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -253,20 +269,17 @@
 <!-- Hero (screen) -->
 <main id="top" role="main" class="max-w-5xl mx-auto px-4 pt-10 pb-6">
     <h1 class="text-3xl font-bold uppercase">
-        <a href="https://devsniper71.github.io/" class="hover:underline decoration-2 underline-offset-4 hover:decoration-blue-600/60 dark:hover:decoration-blue-300/60" rel="noopener">MD RASEL AHMED</a>
+        <a href="https://devsniper71.github.io/" class="brand-link brand-link--hero focus:outline-none" rel="noopener">MD RASEL AHMED</a>
     </h1>
 
     <!-- Contact icons (screen) -->
     <div class="icon-btn-row mt-4 flex flex-wrap items-center gap-2">
+        <!-- icons unchanged -->
         <a href="mailto:devsniper71@gmail.com" class="icon-btn" aria-label="Email" title="Email" rel="noopener">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 6-10 7L2 6"/>
-            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 6-10 7L2 6"/></svg>
         </a>
         <a href="tel:+8801782449977" class="icon-btn" aria-label="Call" title="Call" rel="noopener">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.8 19.8 0  0 1 3.1 5.18 2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.72c.12.86.32 1.7.6 2.5a2 2 0 0 1-.45 2.11L9 10a16 16 0 0 0 5 5l.67-1.15a2 2 0 0 1 2.11-.45c.8.28 1.64.48 2.5.6A2 2 0 0 1 22 16.92Z"/>
-            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.8 19.8 0 0 1 3.1 5.18 2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.72c.12.86.32 1.7.6 2.5a2 2 0 0 1-.45 2.11L9 10a16 16 0 0 0 5 5l.67-1.15a2 2 0 0 1 2.11-.45c.8.28 1.64.48 2.5.6A2 2 0 0 1 22 16.92Z"/></svg>
         </a>
         <a href="https://wa.me/8801782449977" target="_blank" rel="me noopener noreferrer" class="icon-btn" aria-label="WhatsApp" title="WhatsApp">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.52 3.48A11.81 11.81 0 0 0 12.06 0C5.47.04.18 5.33.21 11.92c.01 2.1.56 4.16 1.62 5.98L0 24l6.29-1.76a12 12 0 0 0 5.77 1.47h.05c6.59-.03 11.88-5.32 11.88-11.91c0-3.18-1.24-6.17-3.47-8.32m-8.46 18.6h-.04a9.93 9.93 0 0 1-5.06-1.38l-.36-.22l-3.73 1.04l1-3.63l-.24-.37a9.94 9.94 0  0 1-1.53-5.31C2.04 6.54 6.58 2.02 12.06 2h.04c2.67 0 5.18 1.03 7.07 2.9a9.95 9.95 0  0 1 2.94 7.1c0 5.51-4.49 9.99-9.99 10.08M17.2 14.35c-.29-.15-1.74-.86-2.01-.96c-.27-.1-.46-.15-.66.15c-.2.29-.76.96-.93 1.16c-.17.2-.34.22-.63.08c-.29-.15-1.23-.45-2.35-1.44c-.87-.76-1.44-1.7-1.61-1.99c-.17-.29-.02-.45.13-.6c.13-.13.29-.34.44-.51c.15-.17.2-.29.29-.48c.09-.2.05-.36-.02-.51c-.07-.15-.66-1.59-.91-2.18c-.24-.58-.48-.5-.66-.51l-.56-.01c-.19 0-.5.07-.76.36c-.26.29-1 1-1 2.44s1.02 2.83 1.16 3.03c.15.2 2.01 3.07 4.85 4.31c.68.29 1.22.47 1.64.6c.69.22 1.32.19 1.82.12c.55-.08 1.74-.71 1.99-1.4c.25-.69.25-1.28.17-1.4c-.07-.12-.27-.2-.56-.35"/></svg>
@@ -282,7 +295,7 @@
     <p class="mt-5 text-lg text-zinc-700 dark:text-zinc-300">Backend Engineer · Laravel · PHP · AWS · Cloud & DevOps</p>
 </main>
 
-<!-- Content -->
+<!-- Content (unchanged) -->
 <section id="summary" class="section-card max-w-5xl mx-auto px-4 py-6">
     <h2 class="text-xl font-semibold">Professional Summary</h2>
     <p class="mt-2">Innovative <strong>Backend Engineer</strong> with 10+ years designing and optimizing <strong>Laravel-based cloud systems</strong>. Expert in <strong>AWS</strong>, containerized <strong>microservices</strong>, and <strong>CI/CD automation</strong>. Proven record of modernizing legacy systems, improving performance, and leading distributed teams across Japan, UK, and US.</p>
@@ -415,16 +428,25 @@
 <script>
     /* ===== INTERACTION: lightweight & robust ===== */
 
-    // Theme toggle (persist)
+    // Theme toggle (persist + accessible label)
     const root   = document.documentElement;
     const btnDesk = document.getElementById('theme');
     const btnMob  = document.getElementById('themeMobile');
+
+    function setThemeAria(el){
+        if(!el) return;
+        const isDark = root.classList.contains('dark');
+        el.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+    }
+
     function toggleTheme() {
         root.classList.toggle('dark');
         localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
+        setThemeAria(btnDesk); setThemeAria(btnMob);
     }
     btnDesk?.addEventListener('click', toggleTheme);
     btnMob?.addEventListener('click', toggleTheme);
+    setThemeAria(btnDesk); setThemeAria(btnMob);
 
     // Mobile menu
     const menuBtn   = document.getElementById('menuToggle');
@@ -475,25 +497,24 @@
     // Footer year
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // Print: force light mode during print; remove motion/active state; restore afterwards
+    // Print mode: force light, pause observers, strip “inview”
     let _hadDark = false;
+    function stripInview(){ document.querySelectorAll('.section-card.inview').forEach(el => el.classList.remove('inview')); }
 
-    function stripInview() {
-        document.querySelectorAll('.section-card.inview').forEach(el => el.classList.remove('inview'));
-    }
+    let io = null; // declare for print guard
 
     function beforePrint() {
         _hadDark = root.classList.contains('dark');
         root.classList.remove('dark');
-        root.classList.add('printing');          // disables smooth scroll + accents via CSS
-        try { io?.disconnect(); } catch(e) {}    // stop intersection updates while printing
-        stripInview();                           // remove any active "inview" styling
+        root.classList.add('printing');
+        try { io && io.disconnect(); } catch(e) {}
+        stripInview();
     }
-
-    function afterPrint()  {
+    function afterPrint() {
         if (_hadDark) root.classList.add('dark');
         root.classList.remove('printing');
-        try { sections.forEach(s => io.observe(s)); } catch(e) {} // resume observers
+        try { if (io) sections.forEach(s => io.observe(s)); } catch(e) {}
+        setThemeAria(btnDesk); setThemeAria(btnMob);
     }
 
     window.addEventListener('beforeprint', beforePrint);
@@ -505,7 +526,7 @@
     document.getElementById('downloadPdf')?.addEventListener('click', () => window.print());
     document.getElementById('downloadPdfMobile')?.addEventListener('click', () => window.print());
 
-    // In-view section highlighting + active nav mapping (desktop + mobile)
+    // In-view section highlighting + active nav mapping
     const sections = [...document.querySelectorAll('section[id]')];
 
     // collect all links for each id (desktop + mobile)
@@ -524,7 +545,8 @@
     // Initial active: hash or first section
     setActive(location.hash ? location.hash.slice(1) : (sections[0]?.id || 'summary'));
 
-    const io = new IntersectionObserver((entries) => {
+    // IntersectionObserver to toggle .inview + active tab
+    io = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             const id = entry.target.id;
             if (entry.isIntersecting) {
