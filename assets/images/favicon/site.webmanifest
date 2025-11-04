@@ -1,0 +1,25 @@
+{
+  "name": "MD RASEL AHMED \u2014 Portfolio",
+  "short_name": "Rasel Ahmed",
+  "icons": [
+    {
+      "src": "assets/images/favicon/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "assets/images/favicon/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "assets/images/favicon/maskable-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable any"
+    }
+  ],
+  "theme_color": "#2563EB",
+  "background_color": "#1E3A8A",
+  "display": "standalone"
+}
