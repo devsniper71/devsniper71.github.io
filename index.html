@@ -12,17 +12,15 @@
     <meta name="color-scheme" content="light dark" />
     <meta name="format-detection" content="telephone=no,address=no,email=no" />
 
-    <!-- THEME BOOTSTRAP
-         Default to LIGHT; respect a returning user's saved choice. -->
+    <!-- Persist user theme, default to light -->
     <script>
         (() => {
             const t = localStorage.getItem('theme'); // 'dark' | 'light' | null
             if (t === 'dark') document.documentElement.classList.add('dark');
-            // else remain light by default
         })();
     </script>
 
-    <!-- Tailwind / Fonts -->
+    <!-- Tailwind + Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -56,120 +54,80 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://devsniper71.github.io/assets/og/rasel-ahmed-portfolio-1200x630.jpg" />
 
-    <!-- Schema JSON-LD (SEO) -->
-    <script type="application/ld+json">
-        {
-            "@context":"https://schema.org",
-            "@type":"Person",
-            "@id":"https://devsniper71.github.io/#person",
-            "name":"MD RASEL AHMED",
-            "jobTitle":"Backend Engineer",
-            "image":"https://devsniper71.github.io/assets/og/rasel-ahmed-headshot.jpg",
-            "email":"mailto:devsniper71@gmail.com",
-            "telephone":"+8801782449977",
-            "url":"https://devsniper71.github.io/",
-            "sameAs":[
-                "https://linkedin.com/in/devsniper71",
-                "https://github.com/devsniper71",
-                "https://wa.me/8801782449977"
-            ],
-            "worksFor":{"@type":"Organization","name":"AnySense Inc."},
-            "contactPoint":[{
-                "@type":"ContactPoint",
-                "contactType":"Work",
-                "email":"mailto:devsniper71@gmail.com",
-                "telephone":"+8801782449977",
-                "areaServed":"Worldwide",
-                "availableLanguage":["en","bn","ja"]
-            }]
-        }
-    </script>
-    <script type="application/ld+json">
-        {
-            "@context":"https://schema.org",
-            "@type":"WebSite",
-            "url":"https://devsniper71.github.io/",
-            "name":"MD RASEL AHMED — Portfolio",
-            "inLanguage":"en",
-            "potentialAction":{
-                "@type":"SearchAction",
-                "target":"https://www.google.com/search?q=site:devsniper71.github.io+{search_term_string}",
-                "query-input":"required name=search_term_string"
-            }
-        }
-    </script>
-    <script type="application/ld+json">
-        {
-            "@context":"https://schema.org",
-            "@type":"BreadcrumbList",
-            "itemListElement":[
-                {"@type":"ListItem","position":1,"name":"Summary","item":"https://devsniper71.github.io/#summary"},
-                {"@type":"ListItem","position":2,"name":"Experience","item":"https://devsniper71.github.io/#experience"},
-                {"@type":"ListItem","position":3,"name":"Projects","item":"https://devsniper71.github.io/#projects"}
-            ]
-        }
-    </script>
+    <!-- JSON-LD -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","@id":"https://devsniper71.github.io/#person","name":"MD RASEL AHMED","jobTitle":"Backend Engineer","image":"https://devsniper71.github.io/assets/og/rasel-ahmed-headshot.jpg","email":"mailto:devsniper71@gmail.com","telephone":"+8801782449977","url":"https://devsniper71.github.io/","sameAs":["https://linkedin.com/in/devsniper71","https://github.com/devsniper71","https://wa.me/8801782449977"],"worksFor":{"@type":"Organization","name":"AnySense Inc."},"contactPoint":[{"@type":"ContactPoint","contactType":"Work","email":"mailto:devsniper71@gmail.com","telephone":"+8801782449977","areaServed":"Worldwide","availableLanguage":["en","bn","ja"]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","url":"https://devsniper71.github.io/","name":"MD RASEL AHMED — Portfolio","inLanguage":"en","potentialAction":{"@type":"SearchAction","target":"https://www.google.com/search?q=site:devsniper71.github.io+{search_term_string}","query-input":"required name=search_term_string"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Summary","item":"https://devsniper71.github.io/#summary"},{"@type":"ListItem","position":2,"name":"Experience","item":"https://devsniper71.github.io/#experience"},{"@type":"ListItem","position":3,"name":"Projects","item":"https://devsniper71.github.io/#projects"}]}</script>
 
     <style>
-        /* A11y polish */
+        /* a11y & layout */
         a { text-underline-offset: 2px; }
         :focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
-
-        /* Sticky header-aware smooth scrolling */
         :root { --header-h: 64px; }
         html { scroll-padding-top: var(--header-h); }
         section[id], main[id], article[id], h2[id], h3[id] { scroll-margin-top: calc(var(--header-h) + 12px); }
 
-        /* ================= PRINT (A4 ~2 pages) ================= */
+        /* Modern nav */
+        .nav-pill { position:relative; border-radius:9999px; padding:.25rem .5rem; transition:color 200ms ease; }
+        .nav-pill::before { content:""; position:absolute; inset:0; border-radius:inherit; background:radial-gradient(120% 120% at 50% 50%, rgba(59,130,246,.12), rgba(59,130,246,0)); transform:scale(.85); opacity:0; transition:transform 220ms ease, opacity 220ms ease; }
+        .nav-pill:hover::before, .nav-pill:focus-visible::before { opacity:1; transform:scale(1); }
+        .nav-pill:hover { color:rgb(37 99 235); } .dark .nav-pill:hover { color:rgb(147 197 253); }
+        .nav-underline { background-image:linear-gradient(currentColor,currentColor); background-repeat:no-repeat; background-size:0% 1.5px; background-position:0 100%; transition:background-size 220ms ease; }
+        .nav-pill:hover .nav-underline { background-size:100% 1.5px; }
+        .nav-pill[aria-current="true"] { color:rgb(37 99 235); } .dark .nav-pill[aria-current="true"] { color:rgb(147 197 253); }
+        .nav-pill[aria-current="true"]::before { opacity:1; transform:scale(1); background:radial-gradient(120% 120% at 50% 50%, rgba(59,130,246,.18), rgba(59,130,246,0)); }
+
+        /* Icon buttons */
+        .icon-btn { display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:12px; border:1px solid rgb(228 228 231); background:rgba(255,255,255,.6); transition:transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease, background-color 200ms ease; }
+        .icon-btn:hover { transform:translateY(-2px); border-color:rgba(59,130,246,.5); background:linear-gradient(180deg, rgba(59,130,246,.06), rgba(255,255,255,.4)); box-shadow:0 8px 20px rgba(0,0,0,.08); }
+        .icon-btn:focus-visible { outline:2px solid #2563eb; outline-offset:2px; }
+        .dark .icon-btn { border-color:rgb(39 39 42); background:rgba(24,24,27,.6); }
+        .dark .icon-btn:hover { background:linear-gradient(180deg, rgba(59,130,246,.12), rgba(24,24,27,.7)); box-shadow:0 10px 28px rgba(0,0,0,.35); border-color:rgba(147,197,253,.4); }
+
+        /* Section cards */
+        .section-card { position:relative; border:1px solid rgba(228,228,231,.9); border-radius:16px; transition:transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease, background-color 220ms ease; }
+        .section-card::before { content:""; position:absolute; left:-1px; top:10px; bottom:10px; width:3px; border-radius:2px; background:linear-gradient(180deg, rgba(59,130,246,0), rgba(59,130,246,0)); transition:background 220ms ease, width 220ms ease, opacity 220ms ease; opacity:0; }
+        .section-card:hover { transform:translateY(-2px); box-shadow:0 10px 30px rgba(0,0,0,.07); border-color:rgba(59,130,246,.35); background:linear-gradient(180deg, rgba(59,130,246,.04), transparent); }
+        .section-card:hover::before { background:linear-gradient(180deg, rgba(59,130,246,0), rgba(59,130,246,.55), rgba(59,130,246,0)); width:4px; opacity:1; }
+        .section-card.inview { border-color:rgba(59,130,246,.28); background:linear-gradient(180deg, rgba(59,130,246,.035), transparent); }
+        .section-card.inview::before { background:linear-gradient(180deg, rgba(59,130,246,0), rgba(59,130,246,.45), rgba(59,130,246,0)); opacity:1; width:4px; }
+        .dark .section-card { border-color:rgba(39,39,42,.9); }
+        .dark .section-card:hover { border-color:rgba(147,197,253,.3); background:linear-gradient(180deg, rgba(59,130,246,.07), rgba(24,24,27,.6)); }
+        .dark .section-card.inview { border-color:rgba(147,197,253,.25); background:linear-gradient(180deg, rgba(59,130,246,.06), rgba(24,24,27,.5)); }
+
+        /* Motion safety */
+        @media (prefers-reduced-motion: reduce) { * { transition:none !important; animation:none !important; } }
+
+        /* Print: clean, résumé style */
         @page { size: A4; margin: 12mm; }
-
+        #printHeader { display:none; }
         @media print {
-            html, body { height: auto; }
-            body {
-                background: #fff !important;
-                color: #000 !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-                font-size: 12.5px;
-                line-height: 1.25;
-                zoom: 0.94;
-            }
-
-            /* Make links obvious on paper & clickable in the PDF */
-            a { text-decoration: underline; color: inherit; }
-
-            main, section { max-width: 820px; margin: 0 auto; }
-            header, #toTopBtn { display: none !important; } /* hide nav in PDF */
-
-            h1 { font-size: 20px; margin: 4px 0 8px; }
-            h2 { font-size: 16px; margin: 8px 0 6px; }
-            h3 { font-size: 14px; margin: 6px 0 4px; }
-
-            p  { margin: 4px 0 6px; }
-            ul { margin: 4px 0 0 1rem; padding: 0; }
-            li { margin: 0 0 3px; }
-
-            section { padding: 8px 12px !important; }
-            article { padding: 10px !important; margin-top: 8px !important; border-radius: 12px !important; }
-
-            .grid { row-gap: 6px !important; column-gap: 12px !important; }
-            #highlights ul { gap: 6px !important; }
-            .rounded-2xl { border-radius: 12px !important; }
-
-            article, section, .rounded-2xl, .border, ul, li, h2, h3 { break-inside: avoid-page; }
-
-            .pt-10 { padding-top: 12px !important; }
-            .pb-10 { padding-bottom: 12px !important; }
-            .py-6 { padding-top: 8px !important; padding-bottom: 8px !important; }
-            .pb-6 { padding-bottom: 8px !important; }
-            .mt-3 { margin-top: 6px !important; }
-            .mt-4 { margin-top: 8px !important; }
-            .mt-6 { margin-top: 10px !important; }
-            .mb-6 { margin-bottom: 8px !important; }
-            .px-4 { padding-left: 12px !important; padding-right: 12px !important; }
-
-            * { widows: 2; orphans: 2; }
-            footer { padding-top: 6px !important; padding-bottom: 6px !important; }
+            html, body { height:auto; }
+            body { background:#fff !important; color:#000 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; font-size:12.5px; line-height:1.25; zoom:0.94; }
+            a { text-decoration:underline; color:inherit; }
+            header, #toTopBtn, .icon-btn-row { display:none !important; } /* hide site chrome & icons in PDF */
+            main, section { max-width:820px; margin:0 auto; }
+            #printHeader { display:block !important; margin-bottom:6px; }
+            #printHeader h1 { font-size:20px; margin:0 0 4px; }
+            #printHeader p  { margin:2px 0; }
+            h2 { font-size:16px; margin:8px 0 6px; }
+            h3 { font-size:14px; margin:6px 0 4px; }
+            p  { margin:4px 0 6px; }
+            ul { margin:4px 0 0 1rem; padding:0; }
+            li { margin:0 0 3px; }
+            section { padding:8px 12px !important; }
+            article { padding:10px !important; margin-top:8px !important; border-radius:12px !important; }
+            .grid { row-gap:6px !important; column-gap:12px !important; }
+            .rounded-2xl { border-radius:12px !important; }
+            article, section, .rounded-2xl, .border, ul, li, h2, h3 { break-inside:avoid-page; }
+            .pt-10 { padding-top:12px !important; } .pb-10 { padding-bottom:12px !important; }
+            .py-6 { padding-top:8px !important; padding-bottom:8px !important; }
+            .pb-6 { padding-bottom:8px !important; }
+            .mt-3 { margin-top:6px !important; } .mt-4 { margin-top:8px !important; }
+            .mt-6 { margin-top:10px !important; } .mb-6 { margin-bottom:8px !important; }
+            .px-4 { padding-left:12px !important; padding-right:12px !important; }
+            * { widows:2; orphans:2; }
+            footer { padding-top:6px !important; padding-bottom:6px !important; }
         }
     </style>
 </head>
@@ -179,28 +137,22 @@
 <!-- Skip link -->
 <a href="#summary" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded px-3 py-1 text-sm">Skip to content</a>
 
-<!-- ================= HEADER / NAV ================= -->
+<!-- Header -->
 <header class="sticky top-0 z-30 backdrop-blur border-b border-zinc-200/70 dark:border-zinc-800 bg-white/70 dark:bg-zinc-950/60">
     <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+        <a href="https://devsniper71.github.io/" class="font-semibold tracking-tight uppercase focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded-sm" aria-label="Go to home">MD RASEL AHMED</a>
 
-        <!-- Brand (CHANGE #1): absolute URL so it’s a real link -->
-        <a href="https://devsniper71.github.io/"
-           class="font-semibold tracking-tight uppercase focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded-sm"
-           aria-label="Go to home">MD RASEL AHMED</a>
-
-        <!-- Desktop nav -->
-        <nav class="hidden sm:flex gap-5 text-sm" role="navigation" aria-label="Primary">
-            <a href="#summary" class="hover:underline" aria-current="page">Summary</a>
-            <a href="#highlights" class="hover:underline">Highlights</a>
-            <a href="#skills" class="hover:underline">Skills</a>
-            <a href="#experience" class="hover:underline">Experience</a>
-            <a href="#projects" class="hover:underline">Projects</a>
-            <a href="#community" class="hover:underline">Community</a>
-            <a href="#certs" class="hover:underline">Certs</a>
-            <a href="#education" class="hover:underline">Education</a>
+        <nav class="hidden sm:flex gap-2 text-sm" role="navigation" aria-label="Primary">
+            <a href="#summary"    class="nav-pill"><span class="nav-underline">Summary</span></a>
+            <a href="#highlights" class="nav-pill"><span class="nav-underline">Highlights</span></a>
+            <a href="#skills"     class="nav-pill"><span class="nav-underline">Skills</span></a>
+            <a href="#experience" class="nav-pill"><span class="nav-underline">Experience</span></a>
+            <a href="#projects"   class="nav-pill"><span class="nav-underline">Projects</span></a>
+            <a href="#community"  class="nav-pill"><span class="nav-underline">Community</span></a>
+            <a href="#certs"      class="nav-pill"><span class="nav-underline">Certs</span></a>
+            <a href="#education"  class="nav-pill"><span class="nav-underline">Education</span></a>
         </nav>
 
-        <!-- Desktop actions -->
         <div class="hidden sm:flex items-center gap-2">
             <button id="downloadPdf" class="rounded-xl border border-zinc-200 dark:border-zinc-800 px-3 py-1.5 text-sm hover:bg-zinc-50 dark:hover:bg-zinc-900 transition">Download PDF</button>
             <button id="theme" class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-1.5" aria-label="Toggle dark mode">
@@ -209,76 +161,103 @@
             </button>
         </div>
 
-        <!-- Mobile: theme + hamburger -->
         <div class="flex sm:hidden items-center gap-2">
             <button id="themeMobile" class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-1.5" aria-label="Toggle dark mode">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden dark:inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364-1.414 1.414M7.05 16.95l-1.414 1.414m0-11.314L7.05 7.05m10.9 9.9 1.414 1.414M12 8.25A3.75 3.75 0 1 1 8.25 12 3.75 3.75 0 0 1 12 8.25Z"/></svg>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 dark:hidden" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.75 12.003c0 5.385-4.365 9.75-9.75 9.75-3.37 0-6.34-1.682-8.147-4.243a.75.75 0 0 1 .928-1.117A7.5 7.5 0 0 0 12.75 4.5a7.5 7.5 0 0 0 6.607 11.219.75.75 0 0 1 .928 1.117 9.724 9.724 0 0 1-1.531 1.64 9.72 9.72 0 0 0 3-7.473Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden dark:inline" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364-1.414 1.414M7.05 16.95l-1.414 1.414m0-11.314L7.05 7.05m10.9 9.9 1.414 1.414M12 8.25A3.75 3.75 0 1 1 8.25 12 3.75 3.75 0 0 1 12 8.25Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 dark:hidden" viewBox="0 0 24 24" fill="currentColor"><path d="M21.75 12.003c0 5.385-4.365 9.75-9.75 9.75-3.37 0-6.34-1.682-8.147-4.243a.75.75 0 0 1 .928-1.117A7.5 7.5 0 0 0 12.75 4.5a7.5 7.5 0 0 0 6.607 11.219.75.75 0 0 1 .928 1.117 9.724 9.724 0 0 1-1.531 1.64 9.72 9.72 0 0 0 3-7.473Z"/></svg>
             </button>
             <button id="menuToggle" class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-1.5" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
-                <svg id="iconOpen" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
-                <svg id="iconClose" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
+                <svg id="iconOpen" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                <svg id="iconClose" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
         </div>
     </div>
 
     <!-- Mobile dropdown -->
     <div id="mobileMenu" class="sm:hidden hidden border-t border-zinc-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-950/95">
-        <nav class="max-w-5xl mx-auto px-4 py-3 grid gap-3 text-sm" aria-label="Mobile">
-            <a href="#summary" class="hover:underline">Summary</a>
-            <a href="#highlights" class="hover:underline">Highlights</a>
-            <a href="#skills" class="hover:underline">Skills</a>
-            <a href="#experience" class="hover:underline">Experience</a>
-            <a href="#projects" class="hover:underline">Projects</a>
-            <a href="#community" class="hover:underline">Community</a>
-            <a href="#certs" class="hover:underline">Certs</a>
-            <a href="#education" class="hover:underline">Education</a>
+        <nav class="max-w-5xl mx-auto px-4 py-3 grid gap-2 text-sm" aria-label="Mobile">
+            <a href="#summary" class="nav-pill"><span class="nav-underline">Summary</span></a>
+            <a href="#highlights" class="nav-pill"><span class="nav-underline">Highlights</span></a>
+            <a href="#skills" class="nav-pill"><span class="nav-underline">Skills</span></a>
+            <a href="#experience" class="nav-pill"><span class="nav-underline">Experience</span></a>
+            <a href="#projects" class="nav-pill"><span class="nav-underline">Projects</span></a>
+            <a href="#community" class="nav-pill"><span class="nav-underline">Community</span></a>
+            <a href="#certs" class="nav-pill"><span class="nav-underline">Certs</span></a>
+            <a href="#education" class="nav-pill"><span class="nav-underline">Education</span></a>
             <div class="h-px bg-zinc-200 dark:bg-zinc-800 my-1"></div>
             <button id="downloadPdfMobile" class="rounded-lg border border-zinc-200 dark:border-zinc-800 px-3 py-1.5 text-sm text-center">Download PDF</button>
         </nav>
     </div>
 </header>
 
-<!-- ================= HERO ================= -->
+<!-- Print-only professional header (for PDF) -->
+<div id="printHeader" class="max-w-5xl mx-auto px-4 pt-3">
+    <h1 class="uppercase font-bold">MD RASEL AHMED — Backend Engineer (Laravel · PHP · AWS)</h1>
+    <p>Email: devsniper71@gmail.com · Phone: +880 1782-449-977</p>
+    <p>LinkedIn: linkedin.com/in/devsniper71 · GitHub: github.com/devsniper71 · WhatsApp: wa.me/8801782449977</p>
+    <div style="height:6px"></div>
+</div>
+
+<!-- Hero -->
 <main id="top" role="main" class="max-w-5xl mx-auto px-4 pt-10 pb-6">
-    <!-- CHANGE #2: Wrap the H1 in an absolute link so it’s clickable in the PDF -->
     <h1 class="text-3xl font-bold uppercase">
         <a href="https://devsniper71.github.io/" class="hover:underline">MD RASEL AHMED</a>
     </h1>
 
-    <!-- Contact line -->
-    <p class="mt-3 text-sm flex flex-wrap items-center gap-x-3 gap-y-2">
-        <a href="mailto:devsniper71@gmail.com" aria-label="Email: devsniper71@gmail.com" class="inline-flex items-center hover:opacity-80"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4a2 2 0 0 0-2 2v.4l10 6.25L22 6.4V6a2 2 0 0 0-2-2Zm2 5.2-10 6.25L2 9.2V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9.2Z"/></svg><span class="sr-only">Email</span></a>
-        <span aria-hidden="true">·</span>
-        <a href="tel:+8801782449977" aria-label="Call: +880 1782-449-977" class="inline-flex items-center hover:opacity-80"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.25 11.36 11.36 0 0 0 3.56.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 8a1 1 0 0 1 1-1h2.5a1 1 0 0 1 1 1c0 1.23.2 2.41.57 3.56a1 1 0 0 1-.25 1.02l-2.2 2.2Z"/></svg><span class="sr-only">Phone</span></a>
-        <span aria-hidden="true">·</span>
-        <a href="https://wa.me/8801782449977" target="_blank" rel="me noopener noreferrer" aria-label="WhatsApp" class="inline-flex items-center hover:opacity-80"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163A11.867 11.867 0 0111.99 0C18.627 0 24 5.373 24 12.01S18.627 24.02 11.99 24.02h-.005A11.9 11.9 0 016.13 22.3L.057 24zm6.597-3.807a9.8 9.8 0 005.33 1.55h.004c5.428 0 9.86-4.434 9.862-9.864C21.853 6.45 17.42 2.02 11.99 2.02a9.83 9.83 0 00-8.452 14.74l.537.852-1 3.66 3.58-.954.892.505zM8.68 7.64c.21-.47.43-.48.63-.49.16-.007.34-.006.52-.006.18 0 .47-.067.72.34.25.406.85 1.405.92 1.506.07.1.12.22.02.35-.1.13-.15.21-.3.33-.15.12-.31.27-.45.46-.15.19-.31.39-.13.7.18.31.8 1.32 1.72 2.14 1.18 1.05 2.17 1.38 2.48 1.53.31.15.49.13.67-.08.18-.21.77-.9.98-1.22.21-.32.41-.27.67-.16.26.11 1.64.77 1.92.91.28.14.47.21.54.33.07.12.07.7-.17 1.36-.24.66-1.4 1.31-1.92 1.4-.49.09-1.12.13-1.81-.11-.42-.14-1-.32-1.73-.63-3.06-1.32-5.05-4.41-5.2-4.62-.15-.21-1.24-1.64-1.24-3.14 0-1.5.79-2.24 1.07-2.55z"/></svg><span class="sr-only">WhatsApp</span></a>
-        <span aria-hidden="true">·</span>
-        <a href="https://linkedin.com/in/devsniper71" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn" class="inline-flex items-center hover:opacity-80"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 102.5 6a2.5 2.5 0 002.48-2.5zM3 8.98h4v12H3v-12zM9 8.98h3.83v1.64h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.65 4.78 6.09v6.22h-4v-5.51c0-1.31-.02-2.99-1.82-2.99-1.82 0-2.1 1.42-2.1 2.89v5.61H9v-12z"/></svg><span class="sr-only">LinkedIn</span></a>
-        <span aria-hidden="true">·</span>
-        <a href="https://github.com/devsniper71" target="_blank" rel="me noopener noreferrer" aria-label="GitHub" class="inline-flex items-center hover:opacity-80"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.98 5.24.98 11.5c0 4.85 3.14 8.97 7.5 10.42.55.1.75-.24.75-.53 0-.26-.01-1.11-.02-2.02-3.05.66-3.7-1.3-3.7-1.3-.5-1.28-1.22-1.62-1.22-1.62-1-.69.08-.68.08-.68 1.1.08 1.67 1.12 1.67 1.12.98 1.67 2.56 1.19 3.18.9.1-.71.38-1.19.68-1.46-2.44-.28-5-1.22-5-5.44 0-1.2.43-2.18 1.12-2.95-.11-.28-.49-1.42.11-2.95 0 0 .93-.3 3.05 1.12.88-.24 1.82-.36 2.76-.36.94 0 1.88.12 2.76.36 2.12-1.42 3.05-1.12 3.05-1.12.6 1.53.22 2.67.11 2.95.69.77 1.12 1.75 1.12 2.95 0 4.23-2.56 5.15-5 5.43.39.34.73 1 .73 2.03 0 1.47-.01 2.65-.01 3.01 0 .29.2.64.75.53 4.36-1.45 7.5-5.57 7.5-10.42C23.02 5.24 18.27.5 12 .5z"/></svg><span class="sr-only">GitHub</span></a>
-    </p>
+    <!-- Contact icons -->
+    <div class="icon-btn-row mt-4 flex flex-wrap items-center gap-2">
+        <a href="mailto:devsniper71@gmail.com" class="icon-btn" aria-label="Email">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 6-10 7L2 6"/>
+            </svg>
+        </a>
 
-    <p class="mt-3 text-lg text-zinc-700 dark:text-zinc-300">Backend Engineer · Laravel · PHP · AWS · Cloud & DevOps</p>
+        <a href="tel:+8801782449977" class="icon-btn" aria-label="Call">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.8 19.8 0 0 1 3.1 5.18 2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.72c.12.86.32 1.7.6 2.5a2 2 0 0 1-.45 2.11L9 10a16 16 0 0 0 5 5l.67-1.15a2 2 0 0 1 2.11-.45c.8.28 1.64.48 2.5.6A2 2 0 0 1 22 16.92Z"/>
+            </svg>
+        </a>
+
+        <!-- WhatsApp (brand-correct path from Simple Icons; works reliably) -->
+        <a href="https://wa.me/8801782449977" target="_blank" rel="me noopener noreferrer" class="icon-btn" aria-label="WhatsApp">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M20.52 3.48A11.81 11.81 0 0 0 12.06 0C5.47.04.18 5.33.21 11.92c.01 2.1.56 4.16 1.62 5.98L0 24l6.29-1.76a12 12 0 0 0 5.77 1.47h.05c6.59-.03 11.88-5.32 11.88-11.91c0-3.18-1.24-6.17-3.47-8.32m-8.46 18.6h-.04a9.93 9.93 0 0 1-5.06-1.38l-.36-.22l-3.73 1.04l1-3.63l-.24-.37a9.94 9.94 0 0 1-1.53-5.31C2.04 6.54 6.58 2.02 12.06 2h.04c2.67 0 5.18 1.03 7.07 2.9a9.95 9.95 0 0 1 2.94 7.1c0 5.51-4.49 9.99-9.99 10.08M17.2 14.35c-.29-.15-1.74-.86-2.01-.96c-.27-.1-.46-.15-.66.15c-.2.29-.76.96-.93 1.16c-.17.2-.34.22-.63.08c-.29-.15-1.23-.45-2.35-1.44c-.87-.76-1.44-1.7-1.61-1.99c-.17-.29-.02-.45.13-.6c.13-.13.29-.34.44-.51c.15-.17.2-.29.29-.48c.09-.2.05-.36-.02-.51c-.07-.15-.66-1.59-.91-2.18c-.24-.58-.48-.5-.66-.51l-.56-.01c-.19 0-.5.07-.76.36c-.26.29-1 1-1 2.44s1.02 2.83 1.16 3.03c.15.2 2.01 3.07 4.85 4.31c.68.29 1.22.47 1.64.6c.69.22 1.32.19 1.82.12c.55-.08 1.74-.71 1.99-1.4c.25-.69.25-1.28.17-1.4c-.07-.12-.27-.2-.56-.35"/>
+            </svg>
+        </a>
+
+        <a href="https://linkedin.com/in/devsniper71" target="_blank" rel="me noopener noreferrer" class="icon-btn" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M4.98 3.5A2.5 2.5 0 1 1 2.5 6a2.5 2.5 0 0 1 2.48-2.5Z"/><path d="M3 8.98h4v12H3z"/><path d="M9 8.98h3.83v1.64h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.65 4.78 6.09v6.22h-4v-5.51c0-1.31-.02-2.99-1.82-2.99-1.82 0-2.1 1.42-2.1 2.89v5.61H9v-12z"/>
+            </svg>
+        </a>
+
+        <a href="https://github.com/devsniper71" target="_blank" rel="me noopener noreferrer" class="icon-btn" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 .5C5.73.5.98 5.24.98 11.5c0 4.85 3.14 8.97 7.5 10.42.55.1.75-.24.75-.53 0-.26-.01-1.11-.02-2.02-3.05.66-3.7-1.3-3.7-1.3-.5-1.28-1.22-1.62-1.22-1.62-1-.69.08-.68.08-.68 1.1.08 1.67 1.12 1.67 1.12.98 1.67 2.56 1.19 3.18.9.1-.71.38-1.19.68-1.46-2.44-.28-5-1.22-5-5.44 0-1.2.43-2.18 1.12-2.95-.11-.28-.49-1.42.11-2.95 0 0 .93-.3 3.05 1.12.88-.24 1.82-.36 2.76-.36.94 0 1.88.12 2.76.36 2.12-1.42 3.05-1.12 3.05-1.12.6 1.53.22 2.67.11 2.95.69.77 1.12 1.75 1.12 2.95 0 4.23-2.56 5.15-5 5.43.39.34.73 1 .73 2.03 0 1.47-.01 2.65-.01 3.01 0 .29.2.64.75.53 4.36-1.45 7.5-5.57 7.5-10.42C23.02 5.24 18.27.5 12 .5z"/>
+            </svg>
+        </a>
+    </div>
+
+    <p class="mt-5 text-lg text-zinc-700 dark:text-zinc-300">Backend Engineer · Laravel · PHP · AWS · Cloud & DevOps</p>
 </main>
 
-<!-- ================ CONTENT SECTIONS ================ -->
-<section id="summary" class="max-w-5xl mx-auto px-4 py-6">
+<!-- Content -->
+<section id="summary" class="section-card max-w-5xl mx-auto px-4 py-6">
     <h2 class="text-xl font-semibold">Professional Summary</h2>
     <p class="mt-2">Innovative <strong>Backend Engineer</strong> with 10+ years designing and optimizing <strong>Laravel-based cloud systems</strong>. Expert in <strong>AWS</strong>, containerized <strong>microservices</strong>, and <strong>CI/CD automation</strong>. Proven record of modernizing legacy systems, improving performance, and leading distributed teams across Japan, UK, and US.</p>
 </section>
 
-<section id="highlights" class="max-w-5xl mx-auto px-4 pb-2">
+<section id="highlights" class="section-card max-w-5xl mx-auto px-4 py-6 mt-4">
     <h2 class="text-xl font-semibold">Key Highlights</h2>
     <ul class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
-        <li class="rounded-lg border border-zinc-200 dark:border-zinc-800 px-3 py-2">Transformed legacy systems into scalable <b>Laravel microservices</b> on AWS</li>
-        <li class="rounded-lg border border-zinc-200 dark:border-zinc-800 px-3 py-2">Automated <b>CI/CD</b> with Docker & GitHub Actions (≈ <b>60%</b> faster releases)</li>
-        <li class="rounded-lg border border-zinc-200 dark:border-zinc-800 px-3 py-2"><b>Led & mentored 10+ engineers</b>, improving quality and velocity</li>
-        <li class="rounded-lg border border-zinc-200 dark:border-zinc-800 px-3 py-2">Delivered multilingual, high-availability platforms for remote-first teams</li>
+        <li class="rounded-xl border border-zinc-200 dark:border-zinc-800 px-3 py-2 transition hover:border-blue-300/60">Transformed legacy systems into scalable <b>Laravel microservices</b> on AWS</li>
+        <li class="rounded-xl border border-zinc-200 dark:border-zinc-800 px-3 py-2 transition hover:border-blue-300/60">Automated <b>CI/CD</b> with Docker & GitHub Actions (≈ <b>60%</b> faster releases)</li>
+        <li class="rounded-xl border border-zinc-200 dark:border-zinc-800 px-3 py-2 transition hover:border-blue-300/60"><b>Led & mentored 10+ engineers</b>, improving quality and velocity</li>
+        <li class="rounded-xl border border-zinc-200 dark:border-zinc-800 px-3 py-2 transition hover:border-blue-300/60">Delivered multilingual, high-availability platforms for remote-first teams</li>
     </ul>
 </section>
 
-<section id="skills" class="max-w-5xl mx-auto px-4 py-6">
+<section id="skills" class="section-card max-w-5xl mx-auto px-4 py-6 mt-4">
     <h2 class="text-xl font-semibold">Technical Skills & Expertise</h2>
     <div class="mt-4 grid md:grid-cols-2 gap-6 text-sm">
         <div>
@@ -304,10 +283,10 @@
     </div>
 </section>
 
-<section id="experience" class="max-w-5xl mx-auto px-4 py-6">
+<section id="experience" class="section-card max-w-5xl mx-auto px-4 py-6 mt-4">
     <h2 class="text-xl font-semibold">Professional Experience</h2>
 
-    <article class="mt-4 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-4">
+    <article class="mt-4 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-4 transition hover:border-blue-300/60">
         <h3 class="font-semibold">Backend Engineer (Remote) — AnySense Inc., Fukuoka, Japan</h3>
         <span class="text-sm text-zinc-500">Oct 2023 – Present</span>
         <ul class="list-disc pl-5 text-sm mt-1">
@@ -318,7 +297,7 @@
         </ul>
     </article>
 
-    <article class="mt-4 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-4">
+    <article class="mt-4 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-4 transition hover:border-blue-300/60">
         <h3 class="font-semibold">Lead Backend Engineer / Agile Team Lead — Banglafire Solution Limited, Dhaka</h3>
         <span class="text-sm text-zinc-500">Dec 2018 – Sep 2023</span>
         <ul class="list-disc pl-5 text-sm mt-1">
@@ -329,7 +308,7 @@
         </ul>
     </article>
 
-    <article class="mt-4 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-4">
+    <article class="mt-4 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-4 transition hover:border-blue-300/60">
         <h3 class="font-semibold">Software Engineer (Full Stack) — Banglafire Solution Limited, Dhaka</h3>
         <span class="text-sm text-zinc-500">Nov 2017 – Nov 2018</span>
         <ul class="list-disc pl-5 text-sm mt-1">
@@ -339,7 +318,7 @@
         </ul>
     </article>
 
-    <article class="mt-4 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-4">
+    <article class="mt-4 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-4 transition hover:border-blue-300/60">
         <h3 class="font-semibold">Junior Software Engineer — MEDIA365 Limited, Dhaka</h3>
         <span class="text-sm text-zinc-500">Jan 2015 – Oct 2017</span>
         <ul class="list-disc pl-5 text-sm mt-1">
@@ -349,17 +328,17 @@
     </article>
 </section>
 
-<section id="projects" class="max-w-5xl mx-auto px-4 py-6">
+<section id="projects" class="section-card max-w-5xl mx-auto px-4 py-6 mt-4">
     <h2 class="text-xl font-semibold">Key Projects & Contributions</h2>
     <div class="grid md:grid-cols-2 gap-4 mt-4 text-sm">
-        <div class="border p-4 rounded-2xl dark:border-zinc-800"><b>API Architecture:</b> Designed & secured RESTful APIs for e-commerce, logistics, and education platforms.</div>
-        <div class="border p-4 rounded-2xl dark:border-zinc-800"><b>IoT & Real-Time:</b> Event-driven processing with queue/pub-sub for live tracking and notifications.</div>
-        <div class="border p-4 rounded-2xl dark:border-zinc-800"><b>DevOps Enablement:</b> Containerized stacks and automated AWS deployments.</div>
-        <div class="border p-4 rounded-2xl dark:border-zinc-800"><b>Cloud Infrastructure:</b> Microservices on EC2, RDS, S3 with proactive CloudWatch monitoring.</div>
+        <div class="border p-4 rounded-2xl dark:border-zinc-800 hover:border-blue-300/60 transition"><b>API Architecture:</b> Designed & secured RESTful APIs for e-commerce, logistics, and education platforms.</div>
+        <div class="border p-4 rounded-2xl dark:border-zinc-800 hover:border-blue-300/60 transition"><b>IoT & Real-Time:</b> Event-driven processing with queue/pub-sub for live tracking and notifications.</div>
+        <div class="border p-4 rounded-2xl dark:border-zinc-800 hover:border-blue-300/60 transition"><b>DevOps Enablement:</b> Containerized stacks and automated AWS deployments.</div>
+        <div class="border p-4 rounded-2xl dark:border-zinc-800 hover:border-blue-300/60 transition"><b>Cloud Infrastructure:</b> Microservices on EC2, RDS, S3 with proactive CloudWatch monitoring.</div>
     </div>
 </section>
 
-<section id="community" class="max-w-5xl mx-auto px-4 py-6">
+<section id="community" class="section-card max-w-5xl mx-auto px-4 py-6 mt-4">
     <h2 class="text-xl font-semibold">Community & Leadership</h2>
     <ul class="list-disc pl-5 text-sm mt-2">
         <li>Mentored junior & mid-level engineers on Laravel architecture and DevOps practices</li>
@@ -368,7 +347,7 @@
     </ul>
 </section>
 
-<section id="certs" class="max-w-5xl mx-auto px-4 py-6">
+<section id="certs" class="section-card max-w-5xl mx-auto px-4 py-6 mt-4">
     <h2 class="text-xl font-semibold">Certifications</h2>
     <ul class="list-disc pl-5 text-sm mt-2">
         <li><b>GeneXus 15 Junior Analyst</b> – GeneXus, 2019</li>
@@ -377,7 +356,7 @@
     </ul>
 </section>
 
-<section id="education" class="max-w-5xl mx-auto px-4 py-6">
+<section id="education" class="section-card max-w-5xl mx-auto px-4 py-6 mt-4">
     <h2 class="text-xl font-semibold">Education</h2>
     <p class="mt-2"><b>BSc in Computer Science & Engineering</b><br>University of Science and Technology, Chittagong</p>
     <p class="text-sm mt-1 text-zinc-600 dark:text-zinc-400">NCPC & ICPC participant · Focused on algorithms, systems thinking, and full-stack development</p>
@@ -393,9 +372,9 @@
    aria-label="Back to top">↑ Top</a>
 
 <script>
-    /* ======= INTERACTION LOGIC ======= */
+    /* ===== INTERACTION: lightweight & robust ===== */
 
-    // Theme toggle (persist across sessions)
+    // Theme toggle (persist)
     const root   = document.documentElement;
     const btnDesk = document.getElementById('theme');
     const btnMob  = document.getElementById('themeMobile');
@@ -406,7 +385,7 @@
     btnDesk?.addEventListener('click', toggleTheme);
     btnMob?.addEventListener('click', toggleTheme);
 
-    // Mobile menu controls
+    // Mobile menu
     const menuBtn   = document.getElementById('menuToggle');
     const menu      = document.getElementById('mobileMenu');
     const iconOpen  = document.getElementById('iconOpen');
@@ -420,7 +399,6 @@
         iconClose.classList.toggle('hidden');
     });
 
-    // Close mobile menu on anchor click / outside click / Escape
     function closeMenuIfOpen() {
         if (!menu?.classList.contains('hidden')) {
             menu.classList.add('hidden');
@@ -435,11 +413,9 @@
         const inside = menu.contains(e.target) || menuBtn.contains(e.target);
         if (!inside) closeMenuIfOpen();
     });
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && menu && !menu.classList.contains('hidden')) closeMenuIfOpen();
-    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && menu && !menu.classList.contains('hidden')) closeMenuIfOpen(); });
 
-    // Sticky header-aware scroll padding
+    // Header height -> scroll padding
     const headerEl = document.querySelector('header');
     function setScrollPadding() {
         if (!headerEl) return;
@@ -449,17 +425,16 @@
     setScrollPadding();
     window.addEventListener('resize', setScrollPadding);
 
-    // Back-to-top reveal threshold
+    // Back-to-top visibility
     const toTopBtn = document.getElementById('toTopBtn');
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) toTopBtn.classList.remove('hidden');
-        else toTopBtn.classList.add('hidden');
+        if (window.scrollY > 300) toTopBtn.classList.remove('hidden'); else toTopBtn.classList.add('hidden');
     });
 
-    // Footer year stamp
+    // Footer year
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // Printing: force light mode during print; restore user's theme afterwards
+    // Print: force light mode during print; restore afterwards
     let _hadDark = false;
     function beforePrint() { _hadDark = root.classList.contains('dark'); root.classList.remove('dark'); }
     function afterPrint()  { if (_hadDark) root.classList.add('dark'); }
@@ -468,9 +443,35 @@
     const mq = window.matchMedia && window.matchMedia('print');
     mq?.addEventListener?.('change', e => e.matches ? beforePrint() : afterPrint());
 
-    // PDF download
+    // PDF via Print dialog (renders with print-only header)
     document.getElementById('downloadPdf')?.addEventListener('click', () => window.print());
     document.getElementById('downloadPdfMobile')?.addEventListener('click', () => window.print());
+
+    // In-view section highlighting + active nav mapping (also set initial)
+    const sections = [...document.querySelectorAll('section[id]')];
+    const navLinks = new Map([...document.querySelectorAll('nav a[href^="#"], #mobileMenu a[href^="#"]')].map(a => [a.getAttribute('href').slice(1), a]));
+
+    const setActive = (id) => {
+        document.querySelectorAll('.nav-pill[aria-current="true"]').forEach(el => el.setAttribute('aria-current','false'));
+        navLinks.get(id)?.setAttribute('aria-current','true');
+    };
+
+    // Initial active: hash or first section
+    setActive(location.hash ? location.hash.slice(1) : (sections[0]?.id || 'summary'));
+
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const id = entry.target.id;
+            if (entry.isIntersecting) {
+                entry.target.classList.add('inview');
+                setActive(id);
+            } else {
+                entry.target.classList.remove('inview');
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
+    sections.forEach(s => io.observe(s));
 </script>
 </body>
 </html>
