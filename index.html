@@ -13,8 +13,7 @@
     <meta name="format-detection" content="telephone=no,address=no,email=no" />
 
     <!-- THEME BOOTSTRAP
-         Purpose: default to LIGHT mode; respect a returning user's preference.
-         Rationale: avoids a dark-mode flash on load and prevents OS-level override. -->
+         Default to LIGHT; respect a returning user's saved choice. -->
     <script>
         (() => {
             const t = localStorage.getItem('theme'); // 'dark' | 'light' | null
@@ -23,7 +22,7 @@
         })();
     </script>
 
-    <!-- Fonts & Tailwind (utility-first CSS for layout/spacing/typography) -->
+    <!-- Tailwind / Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -43,7 +42,7 @@
     <link rel="manifest" href="/assets/images/favicon/site.webmanifest">
     <meta name="theme-color" content="#2563EB">
 
-    <!-- Open Graph / Twitter (social share preview) -->
+    <!-- Open Graph / Twitter -->
     <meta property="og:title" content="MD RASEL AHMED — Backend Engineer" />
     <meta property="og:description" content="Laravel · PHP · AWS · Cloud & DevOps" />
     <meta property="og:type" content="website" />
@@ -57,7 +56,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://devsniper71.github.io/assets/og/rasel-ahmed-portfolio-1200x630.jpg" />
 
-    <!-- Schema JSON-LD (structured data for SEO) -->
+    <!-- Schema JSON-LD (SEO) -->
     <script type="application/ld+json">
         {
             "@context":"https://schema.org",
@@ -112,44 +111,36 @@
     </script>
 
     <style>
-        /* General a11y polish */
+        /* A11y polish */
         a { text-underline-offset: 2px; }
         :focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
 
-        /* Sticky header-aware smooth scrolling.
-           JS updates --header-h to the measured header height. */
+        /* Sticky header-aware smooth scrolling */
         :root { --header-h: 64px; }
         html { scroll-padding-top: var(--header-h); }
         section[id], main[id], article[id], h2[id], h3[id] { scroll-margin-top: calc(var(--header-h) + 12px); }
 
-        /* ======================== PRINT (A4) ========================
-           Goal: consistently fit content within ~2 pages without losing readability.
-           Techniques:
-           - Slightly reduced margins and font size
-           - Light-weight "zoom" for WebKit/Blink
-           - Tightened heading/body spacings
-           - Avoid orphaned content across page breaks */
+        /* ================= PRINT (A4 ~2 pages) ================= */
         @page { size: A4; margin: 12mm; }
 
         @media print {
             html, body { height: auto; }
             body {
-                background: #fff !important;    /* Force light on paper */
+                background: #fff !important;
                 color: #000 !important;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
-                font-size: 12.5px;              /* Compact but readable */
+                font-size: 12.5px;
                 line-height: 1.25;
-                zoom: 0.94;                     /* Gentle squeeze to keep to 2 pages */
+                zoom: 0.94;
             }
 
-            /* Efficient measure for content block */
+            /* Make links obvious on paper & clickable in the PDF */
+            a { text-decoration: underline; color: inherit; }
+
             main, section { max-width: 820px; margin: 0 auto; }
+            header, #toTopBtn { display: none !important; } /* hide nav in PDF */
 
-            /* Remove UI chrome in PDF */
-            header, #toTopBtn { display: none !important; }
-
-            /* Headings & spacing scaled for density */
             h1 { font-size: 20px; margin: 4px 0 8px; }
             h2 { font-size: 16px; margin: 8px 0 6px; }
             h3 { font-size: 14px; margin: 6px 0 4px; }
@@ -158,19 +149,15 @@
             ul { margin: 4px 0 0 1rem; padding: 0; }
             li { margin: 0 0 3px; }
 
-            /* Card/section tightening */
             section { padding: 8px 12px !important; }
             article { padding: 10px !important; margin-top: 8px !important; border-radius: 12px !important; }
 
-            /* Grid gaps trimmed */
             .grid { row-gap: 6px !important; column-gap: 12px !important; }
             #highlights ul { gap: 6px !important; }
             .rounded-2xl { border-radius: 12px !important; }
 
-            /* Keep logical blocks intact */
             article, section, .rounded-2xl, .border, ul, li, h2, h3 { break-inside: avoid-page; }
 
-            /* Trim common utility spacings */
             .pt-10 { padding-top: 12px !important; }
             .pb-10 { padding-bottom: 12px !important; }
             .py-6 { padding-top: 8px !important; padding-bottom: 8px !important; }
@@ -181,31 +168,25 @@
             .mb-6 { margin-bottom: 8px !important; }
             .px-4 { padding-left: 12px !important; padding-right: 12px !important; }
 
-            /* Basic widows/orphans protection */
             * { widows: 2; orphans: 2; }
-
             footer { padding-top: 6px !important; padding-bottom: 6px !important; }
-
-            /* Fallbacks (uncomment if a browser still spills to 3 pages):
-               body { font-size: 12px; }
-               body { zoom: 0.92; } */
         }
     </style>
 </head>
 
 <body class="bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 font-sans antialiased">
 
-<!-- Skip link (accessibility for keyboard users) -->
+<!-- Skip link -->
 <a href="#summary" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded px-3 py-1 text-sm">Skip to content</a>
 
-<!-- ======================== HEADER / NAV ======================== -->
+<!-- ================= HEADER / NAV ================= -->
 <header class="sticky top-0 z-30 backdrop-blur border-b border-zinc-200/70 dark:border-zinc-800 bg-white/70 dark:bg-zinc-950/60">
     <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
 
-        <!-- Brand: clickable to top (acts as "Home") -->
-        <a href="#top"
+        <!-- Brand (CHANGE #1): absolute URL so it’s a real link -->
+        <a href="https://devsniper71.github.io/"
            class="font-semibold tracking-tight uppercase focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded-sm"
-           aria-label="Go to top / home">MD RASEL AHMED</a>
+           aria-label="Go to home">MD RASEL AHMED</a>
 
         <!-- Desktop nav -->
         <nav class="hidden sm:flex gap-5 text-sm" role="navigation" aria-label="Primary">
@@ -223,9 +204,7 @@
         <div class="hidden sm:flex items-center gap-2">
             <button id="downloadPdf" class="rounded-xl border border-zinc-200 dark:border-zinc-800 px-3 py-1.5 text-sm hover:bg-zinc-50 dark:hover:bg-zinc-900 transition">Download PDF</button>
             <button id="theme" class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-1.5" aria-label="Toggle dark mode">
-                <!-- Moon (shown in dark) -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden dark:inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364-1.414 1.414M7.05 16.95l-1.414 1.414m0-11.314L7.05 7.05m10.9 9.9 1.414 1.414M12 8.25A3.75 3.75 0 1 1 8.25 12 3.75 3.75 0 0 1 12 8.25Z"/></svg>
-                <!-- Sun (shown in light) -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 dark:hidden" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.75 12.003c0 5.385-4.365 9.75-9.75 9.75-3.37 0-6.34-1.682-8.147-4.243a.75.75 0 0 1 .928-1.117A7.5 7.5 0 0 0 12.75 4.5a7.5 7.5 0 0 0 6.607 11.219.75.75 0 0 1 .928 1.117 9.724 9.724 0 0 1-1.531 1.64 9.72 9.72 0 0 0 3-7.473Z"/></svg>
             </button>
         </div>
@@ -243,7 +222,7 @@
         </div>
     </div>
 
-    <!-- Mobile dropdown menu -->
+    <!-- Mobile dropdown -->
     <div id="mobileMenu" class="sm:hidden hidden border-t border-zinc-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-950/95">
         <nav class="max-w-5xl mx-auto px-4 py-3 grid gap-3 text-sm" aria-label="Mobile">
             <a href="#summary" class="hover:underline">Summary</a>
@@ -260,11 +239,14 @@
     </div>
 </header>
 
-<!-- ======================== HERO ======================== -->
+<!-- ================= HERO ================= -->
 <main id="top" role="main" class="max-w-5xl mx-auto px-4 pt-10 pb-6">
-    <h1 class="text-3xl font-bold uppercase">MD RASEL AHMED</h1>
+    <!-- CHANGE #2: Wrap the H1 in an absolute link so it’s clickable in the PDF -->
+    <h1 class="text-3xl font-bold uppercase">
+        <a href="https://devsniper71.github.io/" class="hover:underline">MD RASEL AHMED</a>
+    </h1>
 
-    <!-- Contact line (icons kept inline for zero extra requests) -->
+    <!-- Contact line -->
     <p class="mt-3 text-sm flex flex-wrap items-center gap-x-3 gap-y-2">
         <a href="mailto:devsniper71@gmail.com" aria-label="Email: devsniper71@gmail.com" class="inline-flex items-center hover:opacity-80"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4a2 2 0 0 0-2 2v.4l10 6.25L22 6.4V6a2 2 0 0 0-2-2Zm2 5.2-10 6.25L2 9.2V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9.2Z"/></svg><span class="sr-only">Email</span></a>
         <span aria-hidden="true">·</span>
@@ -280,7 +262,7 @@
     <p class="mt-3 text-lg text-zinc-700 dark:text-zinc-300">Backend Engineer · Laravel · PHP · AWS · Cloud & DevOps</p>
 </main>
 
-<!-- ======================== CONTENT SECTIONS ======================== -->
+<!-- ================ CONTENT SECTIONS ================ -->
 <section id="summary" class="max-w-5xl mx-auto px-4 py-6">
     <h2 class="text-xl font-semibold">Professional Summary</h2>
     <p class="mt-2">Innovative <strong>Backend Engineer</strong> with 10+ years designing and optimizing <strong>Laravel-based cloud systems</strong>. Expert in <strong>AWS</strong>, containerized <strong>microservices</strong>, and <strong>CI/CD automation</strong>. Proven record of modernizing legacy systems, improving performance, and leading distributed teams across Japan, UK, and US.</p>
@@ -405,16 +387,13 @@
     © <span id="y"></span> MD RASEL AHMED
 </footer>
 
-<!-- Floating Back-to-Top button -->
+<!-- Back-to-top -->
 <a id="toTopBtn" href="#top" role="button" aria-live="polite"
    class="fixed bottom-4 right-4 hidden rounded-full border border-zinc-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/90 backdrop-blur px-3 py-2 text-sm shadow-lg hover:bg-white dark:hover:bg-zinc-800 transition"
    aria-label="Back to top">↑ Top</a>
 
 <script>
-    /* ====================== INTERACTION LOGIC ======================
-       Notes:
-       - Keep JS minimal & unobtrusive; no frameworks required.
-       - All handlers are resilient (optional chaining) to avoid runtime errors. */
+    /* ======= INTERACTION LOGIC ======= */
 
     // Theme toggle (persist across sessions)
     const root   = document.documentElement;
@@ -441,7 +420,7 @@
         iconClose.classList.toggle('hidden');
     });
 
-    // Close mobile menu after any in-page anchor or brand click
+    // Close mobile menu on anchor click / outside click / Escape
     function closeMenuIfOpen() {
         if (!menu?.classList.contains('hidden')) {
             menu.classList.add('hidden');
@@ -450,11 +429,7 @@
             iconClose?.classList.add('hidden');
         }
     }
-    document.querySelectorAll('a[href^="#"]').forEach((link) => {
-        link.addEventListener('click', closeMenuIfOpen);
-    });
-
-    // Also close on outside click + Escape (UX polish)
+    document.querySelectorAll('a[href^="#"]').forEach((link) => link.addEventListener('click', closeMenuIfOpen));
     document.addEventListener('click', (e) => {
         if (!menu || menu.classList.contains('hidden')) return;
         const inside = menu.contains(e.target) || menuBtn.contains(e.target);
@@ -493,7 +468,7 @@
     const mq = window.matchMedia && window.matchMedia('print');
     mq?.addEventListener?.('change', e => e.matches ? beforePrint() : afterPrint());
 
-    // PDF download (leverages the browser's Print to PDF)
+    // PDF download
     document.getElementById('downloadPdf')?.addEventListener('click', () => window.print());
     document.getElementById('downloadPdfMobile')?.addEventListener('click', () => window.print());
 </script>
