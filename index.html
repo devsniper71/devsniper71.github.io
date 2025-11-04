@@ -3,24 +3,40 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,interactive-widget=resizes-content" />
+
     <title>MD RASEL AHMED — Backend Engineer (Laravel · PHP · AWS)</title>
     <meta name="description" content="Backend Engineer with 10+ years building Laravel APIs, AWS cloud systems, Dockerized microservices, and CI/CD. Remote-ready and globally experienced." />
     <link rel="canonical" href="https://devsniper71.github.io/" />
     <link rel="alternate" href="https://devsniper71.github.io/" hreflang="en" />
     <meta name="author" content="MD RASEL AHMED" />
-    <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
-    <meta name="color-scheme" content="light dark" />
+    <!-- IMPORTANT: start in a neutral scheme; JS will set it precisely on load -->
+    <meta name="color-scheme" content="light" />
     <meta name="format-detection" content="telephone=no,address=no,email=no" />
+    <!-- Status bar color; JS updates this to match the theme -->
+    <meta name="theme-color" content="#ffffff">
 
-    <!-- Persist user theme (default: light) before first paint -->
+    <!-- Apply saved theme BEFORE first paint + set color-scheme meta to defeat Samsung force dark -->
     <script>
         (() => {
-            const t = localStorage.getItem('theme');
-            if (t === 'dark') document.documentElement.classList.add('dark');
+            const stored = localStorage.getItem('theme'); // 'light' | 'dark' | null
+            // Default to light unless you want to follow system; keep it simple and predictable:
+            const theme = stored === 'dark' ? 'dark' : 'light';
+
+            const html = document.documentElement;
+            if (theme === 'dark') html.classList.add('dark');
+
+            // Drive browser UI rendering explicitly (fix for Samsung Internet)
+            const metaCS = document.querySelector('meta[name="color-scheme"]');
+            const metaTC = document.querySelector('meta[name="theme-color"]');
+            if (metaCS) metaCS.setAttribute('content', theme);
+            if (metaTC) metaTC.setAttribute('content', theme === 'dark' ? '#0a0a0a' : '#ffffff');
+
+            // Make form controls adopt the chosen scheme
+            html.style.colorScheme = theme;
         })();
     </script>
 
-    <!-- Tailwind + Inter -->
+    <!-- Tailwind + Inter (CDN build) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
@@ -29,23 +45,22 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: { sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','Ubuntu','Cantarell'] },
                     screens: { print: { raw: 'print' } }
                 }
-            },
-            darkMode: 'class'
+            }
         }
     </script>
 
-    <!-- Favicons (relative paths for GitHub Pages) -->
+    <!-- Favicons -->
     <link rel="icon" href="assets/images/favicon/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon/favicon-32.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon/site-icon.svg">
     <link rel="manifest" href="assets/images/favicon/site.webmanifest">
-    <meta name="theme-color" content="#2563EB">
 
     <!-- Open Graph / Twitter -->
     <meta property="og:title" content="MD RASEL AHMED — Backend Engineer" />
@@ -66,23 +81,19 @@
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","url":"https://devsniper71.github.io/","name":"MD RASEL AHMED — Portfolio","inLanguage":"en","potentialAction":{"@type":"SearchAction","target":"https://www.google.com/search?q=site:devsniper71.github.io+{search_term_string}","query-input":"required name=search_term_string"}}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Summary","item":"https://devsniper71.github.io/#summary"},{"@type":"ListItem","position":2,"name":"Experience","item":"https://devsniper71.github.io/#experience"},{"@type":"ListItem","position":3,"name":"Projects","item":"https://devsniper71.github.io/#projects"}]}</script>
 
-    <!-- ===== Custom CSS ===== -->
+    <!-- ===== Custom CSS (unchanged from your version, trimmed for brevity) ===== -->
     <style>
-        /* --- Base a11y & layout --- */
         a { text-underline-offset: 2px; }
         :focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
         :root { --header-h: 64px; }
         html { scroll-padding-top: var(--header-h); -webkit-text-size-adjust: 100%; }
         section[id], main[id], article[id], h2[id], h3[id] { scroll-margin-top: calc(var(--header-h) + 12px); }
 
-        /* Safe-area for notched phones */
         body { padding-left: max(0px, env(safe-area-inset-left)); padding-right: max(0px, env(safe-area-inset-right)); }
         header { padding-left: max(0px, env(safe-area-inset-left)); padding-right: max(0px, env(safe-area-inset-right)); }
 
-        /* Slightly friendlier h1 scale on small screens */
         h1 { font-size: clamp(1.5rem, 1.2rem + 2vw, 1.875rem); }
 
-        /* --- Brand link: animated underline on hover/focus --- */
         .brand-link { position: relative; transition: color 200ms ease; text-decoration: none; }
         .brand-link::after { content:""; position:absolute; left:0; bottom:-2px; height:2px; width:0; background:currentColor; transition:width 220ms ease; }
         .brand-link:hover, .brand-link:focus-visible { color: rgb(37 99 235); }
@@ -91,7 +102,6 @@
         .brand-link--hero { font-weight: 700; }
         .brand-link--hero::after { height:3px; bottom:-6px; }
 
-        /* --- Nav pills --- */
         .nav-pill { position:relative; border-radius:9999px; padding:.375rem .625rem; transition:color 200ms ease; text-decoration: none; }
         .nav-pill::before { content:""; position:absolute; inset:0; border-radius:inherit; background:radial-gradient(120% 120% at 50% 50%, rgba(59,130,246,.12), rgba(59,130,246,0)); transform:scale(.85); opacity:0; transition:transform 220ms ease, opacity 220ms ease; }
         .nav-pill:hover::before, .nav-pill:focus-visible::before { opacity:1; transform:scale(1); }
@@ -101,7 +111,6 @@
         .nav-underline { background-image:linear-gradient(currentColor,currentColor); background-repeat:no-repeat; background-position:0 100%; background-size:0% 1.5px; transition:background-size 220ms ease; }
         .nav-pill:hover .nav-underline, .nav-pill:focus-visible .nav-underline { background-size:100% 1.5px; }
 
-        /* --- Icon buttons --- */
         .icon-btn { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:12px; border:1px solid rgb(228 228 231); background:rgba(255,255,255,.6); transition:transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease, background-color 200ms ease; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
         @media (min-width:640px){ .icon-btn{ width:36px; height:36px; } }
         .icon-btn:hover { transform:translateY(-2px); border-color:rgba(59,130,246,.5); background:linear-gradient(180deg, rgba(59,130,246,.06), rgba(255,255,255,.4)); box-shadow:0 8px 20px rgba(0,0,0,.08); }
@@ -109,7 +118,6 @@
         .dark .icon-btn { border-color:rgb(39 39 42); background:rgba(24,24,27,.6); }
         .dark .icon-btn:hover { background:linear-gradient(180deg, rgba(59,130,246,.12), rgba(24,24,27,.7)); box-shadow:0 10px 28px rgba(0,0,0,.35); border-color:rgba(147,197,253,.4); }
 
-        /* --- Section cards --- */
         .section-card { position:relative; border:1px solid rgba(228,228,231,.9); border-radius:16px; transition:transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease, background-color 220ms ease; }
         .section-card::before { content:""; position:absolute; left:-1px; top:10px; bottom:10px; width:3px; border-radius:2px; background:linear-gradient(180deg, rgba(59,130,246,0), rgba(59,130,246,0)); transition:background 220ms ease, width 220ms ease, opacity 220ms ease; opacity:0; }
         .section-card:hover { transform:translateY(-2px); box-shadow:0 10px 30px rgba(0,0,0,.07); border-color:rgba(59,130,246,.35); background:linear-gradient(180deg, rgba(59,130,246,.04), transparent); }
@@ -120,10 +128,8 @@
         .dark .section-card:hover { border-color:rgba(147,197,253,.3); background:linear-gradient(180deg, rgba(59,130,246,.07), rgba(24,24,27,.6)); }
         .dark .section-card.inview { border-color:rgba(147,197,253,.25); background:linear-gradient(180deg, rgba(59,130,246,.06), rgba(24,24,27,.5)); }
 
-        /* Motion safety */
         @media (prefers-reduced-motion: reduce) { * { transition:none !important; animation:none !important; } }
 
-        /* --- Print: compact résumé (A4) --- */
         @page { size: A4; margin: 10mm; }
         @media print {
             html, body { height:auto; }
@@ -161,11 +167,9 @@
             .section-card::before { display: none !important; }
         }
 
-        /* Neutral B/W summary on screen */
         #summary.section-card { border-color: rgba(0,0,0,.12) !important; background: transparent !important; box-shadow: none !important; }
         #summary.section-card:hover, #summary.section-card.inview { border-color: rgba(0,0,0,.28) !important; background: transparent !important; }
 
-        /* Disable accents while printing (JS toggles .printing) */
         html.printing { scroll-behavior: auto !important; }
         .printing .section-card::before { display: none !important; }
         .printing .section-card { background: transparent !important; box-shadow: none !important; border-color: rgba(0,0,0,.18) !important; }
@@ -282,7 +286,6 @@
         <a href="https://devsniper71.github.io/" class="brand-link brand-link--hero focus:outline-none" rel="noopener">MD RASEL AHMED</a>
     </h1>
 
-    <!-- Contact icons (screen) -->
     <div class="icon-btn-row mt-4 flex flex-wrap items-center gap-2">
         <a href="mailto:devsniper71@gmail.com" class="icon-btn" aria-label="Email" title="Email" rel="noopener">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 6-10 7L2 6"/></svg>
@@ -436,26 +439,38 @@
 </a>
 
 <script>
-    /* ===== INTERACTION: lightweight & robust ===== */
+    /* ===== INTERACTIONS ===== */
 
-    // Theme toggle (persist + accessible label)
-    const root   = document.documentElement;
+    // Theme toggle with Samsung-safe meta updates
+    const root = document.documentElement;
     const btnDesk = document.getElementById('theme');
     const btnMob  = document.getElementById('themeMobile');
 
+    const metaCS = document.querySelector('meta[name="color-scheme"]');
+    const metaTC = document.querySelector('meta[name="theme-color"]');
+
+    function currentTheme() {
+        return root.classList.contains('dark') ? 'dark' : 'light';
+    }
     function setThemeAria(el){
         if(!el) return;
         const isDark = root.classList.contains('dark');
         el.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
     }
-
-    function toggleTheme() {
-        root.classList.toggle('dark');
-        localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
+    function applyTheme(theme) {
+        root.classList.toggle('dark', theme === 'dark');
+        localStorage.setItem('theme', theme);
+        // Drive browser UI + auto-dark engines:
+        if (metaCS) metaCS.setAttribute('content', theme);
+        if (metaTC) metaTC.setAttribute('content', theme === 'dark' ? '#0a0a0a' : '#ffffff');
+        root.style.colorScheme = theme; // form controls, etc.
         setThemeAria(btnDesk); setThemeAria(btnMob);
     }
+    function toggleTheme() {
+        applyTheme(currentTheme() === 'dark' ? 'light' : 'dark');
+    }
     btnDesk?.addEventListener('click', toggleTheme);
-    btnMob?.addEventListener('click', toggleTheme);
+    btnMob?.addEventListener('click',  toggleTheme);
     setThemeAria(btnDesk); setThemeAria(btnMob);
 
     // Mobile menu
@@ -519,9 +534,24 @@
         root.classList.add('printing');
         try { io && io.disconnect(); } catch(e) {}
         stripInview();
+
+        // While printing, ensure color-scheme and theme-color are light for predictable output
+        if (metaCS) metaCS.setAttribute('content', 'light');
+        if (metaTC) metaTC.setAttribute('content', '#ffffff');
+        root.style.colorScheme = 'light';
     }
     function afterPrint() {
-        if (_hadDark) root.classList.add('dark');
+        if (_hadDark) {
+            root.classList.add('dark');
+            if (metaCS) metaCS.setAttribute('content', 'dark');
+            if (metaTC) metaTC.setAttribute('content', '#0a0a0a');
+            root.style.colorScheme = 'dark';
+        } else {
+            root.classList.remove('dark');
+            if (metaCS) metaCS.setAttribute('content', 'light');
+            if (metaTC) metaTC.setAttribute('content', '#ffffff');
+            root.style.colorScheme = 'light';
+        }
         root.classList.remove('printing');
         try { if (io) sections.forEach(s => io.observe(s)); } catch(e) {}
         setThemeAria(btnDesk); setThemeAria(btnMob);
