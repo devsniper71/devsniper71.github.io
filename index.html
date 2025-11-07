@@ -81,7 +81,7 @@
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","url":"https://devsniper71.github.io/","name":"MD RASEL AHMED — Portfolio","inLanguage":"en","potentialAction":{"@type":"SearchAction","target":"https://www.google.com/search?q=site:devsniper71.github.io+{search_term_string}","query-input":"required name=search_term_string"}}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Summary","item":"https://devsniper71.github.io/#summary"},{"@type":"ListItem","position":2,"name":"Experience","item":"https://devsniper71.github.io/#experience"},{"@type":"ListItem","position":3,"name":"Projects","item":"https://devsniper71.github.io/#projects"}]}</script>
 
-    <!-- ===== Custom CSS (unchanged from your version, trimmed for brevity) ===== -->
+    <!-- ===== Custom CSS ===== -->
     <style>
         a { text-underline-offset: 2px; }
         :focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
@@ -162,13 +162,12 @@
             .px-4 { padding-left:12px !important; padding-right:12px !important; }
             * { widows:2; orphans:2; }
             footer { padding-top:6px !important; padding-bottom:6px !important; color:#111; }
-            #summary.section-card { border-color:#000 !important; }
             html { scroll-behavior: auto !important; }
             .section-card::before { display: none !important; }
         }
 
-        #summary.section-card { border-color: rgba(0,0,0,.12) !important; background: transparent !important; box-shadow: none !important; }
-        #summary.section-card:hover, #summary.section-card.inview { border-color: rgba(0,0,0,.28) !important; background: transparent !important; }
+        /* removed the two overrides that caused different hover behavior */
+        /* (no special non-print styles for #summary now) */
 
         html.printing { scroll-behavior: auto !important; }
         .printing .section-card::before { display: none !important; }
