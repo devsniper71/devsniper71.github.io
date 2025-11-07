@@ -9,29 +9,27 @@
     <link rel="canonical" href="https://devsniper71.github.io/" />
     <link rel="alternate" href="https://devsniper71.github.io/" hreflang="en" />
     <meta name="author" content="MD RASEL AHMED" />
+
     <!-- IMPORTANT: start in a neutral scheme; JS will set it precisely on load -->
     <meta name="color-scheme" content="light" />
     <meta name="format-detection" content="telephone=no,address=no,email=no" />
-    <!-- Status bar color; JS updates this to match the theme -->
     <meta name="theme-color" content="#ffffff">
 
-    <!-- Apply saved theme BEFORE first paint + set color-scheme meta to defeat Samsung force dark -->
+    <!-- Apply saved/system theme BEFORE first paint + set color-scheme meta -->
     <script>
         (() => {
+            // Respect user saved choice; otherwise follow system on first visit
             const stored = localStorage.getItem('theme'); // 'light' | 'dark' | null
-            // Default to light unless you want to follow system; keep it simple and predictable:
-            const theme = stored === 'dark' ? 'dark' : 'light';
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = stored ?? (prefersDark ? 'dark' : 'light');
 
             const html = document.documentElement;
             if (theme === 'dark') html.classList.add('dark');
 
-            // Drive browser UI rendering explicitly (fix for Samsung Internet)
             const metaCS = document.querySelector('meta[name="color-scheme"]');
             const metaTC = document.querySelector('meta[name="theme-color"]');
             if (metaCS) metaCS.setAttribute('content', theme);
             if (metaTC) metaTC.setAttribute('content', theme === 'dark' ? '#0a0a0a' : '#ffffff');
-
-            // Make form controls adopt the chosen scheme
             html.style.colorScheme = theme;
         })();
     </script>
@@ -112,13 +110,13 @@
         .nav-pill:hover .nav-underline, .nav-pill:focus-visible .nav-underline { background-size:100% 1.5px; }
 
         .icon-btn { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:12px; border:1px solid rgb(228 228 231); background:rgba(255,255,255,.6); transition:transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease, background-color 200ms ease; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
-        @media (min-width:640px){ .icon-btn{ width:36px; height:36px; } }
         .icon-btn:hover { transform:translateY(-2px); border-color:rgba(59,130,246,.5); background:linear-gradient(180deg, rgba(59,130,246,.06), rgba(255,255,255,.4)); box-shadow:0 8px 20px rgba(0,0,0,.08); }
         .icon-btn:focus-visible { outline:2px solid #2563eb; outline-offset:2px; }
         .dark .icon-btn { border-color:rgb(39 39 42); background:rgba(24,24,27,.6); }
         .dark .icon-btn:hover { background:linear-gradient(180deg, rgba(59,130,246,.12), rgba(24,24,27,.7)); box-shadow:0 10px 28px rgba(0,0,0,.35); border-color:rgba(147,197,253,.4); }
 
-        .section-card { position:relative; border:1px solid rgba(228,228,231,.9); border-radius:16px; transition:transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease, background-color 220ms ease; }
+        /* Card + perf */
+        .section-card { position:relative; border:1px solid rgba(228,228,231,.9); border-radius:16px; transition:transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease, background-color 220ms ease; content-visibility:auto; contain-intrinsic-size: 600px; }
         .section-card::before { content:""; position:absolute; left:-1px; top:10px; bottom:10px; width:3px; border-radius:2px; background:linear-gradient(180deg, rgba(59,130,246,0), rgba(59,130,246,0)); transition:background 220ms ease, width 220ms ease, opacity 220ms ease; opacity:0; }
         .section-card:hover { transform:translateY(-2px); box-shadow:0 10px 30px rgba(0,0,0,.07); border-color:rgba(59,130,246,.35); background:linear-gradient(180deg, rgba(59,130,246,.04), transparent); }
         .section-card:hover::before { background:linear-gradient(180deg, rgba(59,130,246,0), rgba(59,130,246,.55), rgba(59,130,246,0)); width:4px; opacity:1; }
@@ -128,8 +126,13 @@
         .dark .section-card:hover { border-color:rgba(147,197,253,.3); background:linear-gradient(180deg, rgba(59,130,246,.07), rgba(24,24,27,.6)); }
         .dark .section-card.inview { border-color:rgba(147,197,253,.25); background:linear-gradient(180deg, rgba(59,130,246,.06), rgba(24,24,27,.5)); }
 
+        /* JS-off target fallback highlight */
+        section.section-card:target { border-color: rgba(59,130,246,.35); background:linear-gradient(180deg, rgba(59,130,246,.04), transparent); }
+        .dark section.section-card:target { border-color: rgba(147,197,253,.3); background:linear-gradient(180deg, rgba(59,130,246,.07), rgba(24,24,27,.6)); }
+
         @media (prefers-reduced-motion: reduce) { * { transition:none !important; animation:none !important; } }
 
+        /* Print */
         @page { size: A4; margin: 10mm; }
         @media print {
             html, body { height:auto; }
@@ -165,9 +168,6 @@
             html { scroll-behavior: auto !important; }
             .section-card::before { display: none !important; }
         }
-
-        /* removed the two overrides that caused different hover behavior */
-        /* (no special non-print styles for #summary now) */
 
         html.printing { scroll-behavior: auto !important; }
         .printing .section-card::before { display: none !important; }
@@ -459,10 +459,9 @@
     function applyTheme(theme) {
         root.classList.toggle('dark', theme === 'dark');
         localStorage.setItem('theme', theme);
-        // Drive browser UI + auto-dark engines:
         if (metaCS) metaCS.setAttribute('content', theme);
         if (metaTC) metaTC.setAttribute('content', theme === 'dark' ? '#0a0a0a' : '#ffffff');
-        root.style.colorScheme = theme; // form controls, etc.
+        root.style.colorScheme = theme;
         setThemeAria(btnDesk); setThemeAria(btnMob);
     }
     function toggleTheme() {
