@@ -576,6 +576,7 @@
     let io = null; // declare for print guard
 
     function beforePrint() {
+        if (!pendingPrintTitle) pendingPrintTitle = buildResumeTitle();
         if (pendingPrintTitle) document.title = pendingPrintTitle;
 
         _hadDark = root.classList.contains('dark');
