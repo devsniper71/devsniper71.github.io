@@ -265,7 +265,7 @@
 
 <!-- Print-only professional header (for PDF) -->
 <div id="printHeader" class="hidden">
-    <h1 class="uppercase">MD RASEL AHMED</h1>
+    <h1 class="uppercase"><a href="https://devsniper71.github.io/">MD RASEL AHMED</a></h1>
     <p>Backend Engineer · Laravel · PHP · AWS · Cloud & DevOps</p>
     <div id="printContacts">
         <a href="mailto:devsniper71@gmail.com" aria-label="Email">
@@ -553,6 +553,22 @@
     // Footer year
     document.getElementById('y').textContent = new Date().getFullYear();
 
+    // ===== Dynamic PDF filename via temporary document.title =====
+    const ORIGINAL_TITLE = document.title;
+    let pendingPrintTitle = null;
+
+    function pad2(n){ return String(n).padStart(2,'0'); }
+    function buildResumeTitle(d=new Date()){
+        return `MD_RASEL_AHMED_Resume_${d.getFullYear()}_${pad2(d.getMonth()+1)}_${pad2(d.getDate())}`;
+    }
+
+    function triggerPrint(withDynamicTitle = false){
+        if (withDynamicTitle) {
+            pendingPrintTitle = buildResumeTitle();
+        }
+        window.print();
+    }
+
     // Print mode: force light, pause observers, strip “inview”
     let _hadDark = false;
     function stripInview(){ document.querySelectorAll('.section-card.inview').forEach(el => el.classList.remove('inview')); }
@@ -560,6 +576,8 @@
     let io = null; // declare for print guard
 
     function beforePrint() {
+        if (pendingPrintTitle) document.title = pendingPrintTitle;
+
         _hadDark = root.classList.contains('dark');
         root.classList.remove('dark');
         root.classList.add('printing');
@@ -568,7 +586,13 @@
         root.style.colorScheme = 'light';
         syncSamsungColorSchemeMeta('light');
     }
+
     function afterPrint() {
+        if (pendingPrintTitle) {
+            document.title = ORIGINAL_TITLE;
+            pendingPrintTitle = null;
+        }
+
         root.classList.remove('printing');
         const theme = _hadDark ? 'dark' : 'light';
         root.classList.toggle('dark', _hadDark);
@@ -583,8 +607,8 @@
     mq?.addEventListener?.('change', e => e.matches ? beforePrint() : afterPrint());
 
     // PDF via Print dialog
-    document.getElementById('downloadPdf')?.addEventListener('click', () => window.print());
-    document.getElementById('downloadPdfMobile')?.addEventListener('click', () => window.print());
+    document.getElementById('downloadPdf')?.addEventListener('click', () => triggerPrint(true));
+    document.getElementById('downloadPdfMobile')?.addEventListener('click', () => triggerPrint(true));
 
     // In-view section highlighting + active nav mapping
     const sections = [...document.querySelectorAll('section[id]')];
