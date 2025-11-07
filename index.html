@@ -22,15 +22,14 @@
     <script>
         (() => {
             try {
-                const stored = localStorage.getItem('theme');          // 'light' | 'dark' | null
-                const systemDark = window.matchMedia &&
-                    window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const stored = localStorage.getItem('theme'); // 'light' | 'dark' | null
+                const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
                 const theme = stored || (systemDark ? 'dark' : 'light');
                 const html = document.documentElement;
                 if (theme === 'dark') html.classList.add('dark');
                 // Ensure form controls adopt selected scheme immediately
                 html.style.colorScheme = theme;
-            } catch(_) {}
+            } catch (_) {}
         })();
     </script>
 
@@ -179,7 +178,7 @@
         .si.dark .section-card:hover { background-color:#1f1f1f !important; }
         .si.dark .border-zinc-800 { border-color:#27272a !important; }
 
-        /* If your header uses bg-*/95 utilities, make it fully opaque on SI to avoid re-darkening */
+        /* If your header uses bg-…/95 utilities, make it fully opaque on SI to avoid re-darkening */
         .si.dark header[class*="bg-"][class*="/95"] { background-color:#0a0a0a !important; }
     </style>
 </head>
@@ -450,12 +449,9 @@
     /* ===== INTERACTIONS ===== */
 
     // Theme toggle — no meta mutations; respect system only if user hasn't chosen
-    const root = document.documentElement;
+    const root   = document.documentElement;
     const btnDesk = document.getElementById('theme');
     const btnMob  = document.getElementById('themeMobile');
-
-    const metaCS = document.querySelector('meta[name="color-scheme"]');
-    const metaTC = document.querySelector('meta[name="theme-color"]');
 
     // Detect Samsung Internet and tag <html>
     const IS_SAMSUNG = /SamsungBrowser/i.test(navigator.userAgent);
@@ -464,7 +460,7 @@
     // Keep <meta name="color-scheme"> exactly in sync (Samsung pays attention to this)
     function syncSamsungColorSchemeMeta(theme) {
         if (!IS_SAMSUNG) return;
-        let meta = metaCS || document.querySelector('meta[name="color-scheme"]');
+        let meta = document.querySelector('meta[name="color-scheme"]');
         if (!meta) {
             meta = document.createElement('meta');
             meta.setAttribute('name', 'color-scheme');
@@ -488,10 +484,10 @@
         syncSamsungColorSchemeMeta(theme);   // keep this
         setThemeAria(btnDesk); setThemeAria(btnMob);
     }
-     function toggleTheme() {
-             const next = currentTheme() === 'dark' ? 'light' : 'dark';
-             applyTheme(next);
-         }
+    function toggleTheme() {
+        const next = currentTheme() === 'dark' ? 'light' : 'dark';
+        applyTheme(next);
+    }
     btnDesk?.addEventListener('click', toggleTheme);
     btnMob?.addEventListener('click',  toggleTheme);
     setThemeAria(btnDesk); setThemeAria(btnMob);
@@ -503,7 +499,7 @@
         const mql = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
         if (!hasStored && mql && 'addEventListener' in mql) {
             mql.addEventListener('change', e => {
-                applyTheme(e.matches ? 'dark' : 'light')
+                applyTheme(e.matches ? 'dark' : 'light');
             });
         }
     } catch(_) {}
@@ -579,7 +575,6 @@
         root.style.colorScheme = theme;
         syncSamsungColorSchemeMeta(theme);
         setThemeAria(btnDesk); setThemeAria(btnMob);
-
     }
 
     window.addEventListener('beforeprint', beforePrint);
