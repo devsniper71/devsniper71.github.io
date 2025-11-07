@@ -6,6 +6,7 @@
 
     <title>MD RASEL AHMED — Backend Engineer (Laravel · PHP · AWS)</title>
     <meta name="description" content="Backend Engineer with 10+ years building Laravel APIs, AWS cloud systems, Dockerized microservices, and CI/CD. Remote-ready and globally experienced." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
     <link rel="canonical" href="https://devsniper71.github.io/" />
     <link rel="alternate" href="https://devsniper71.github.io/" hreflang="en" />
     <meta name="author" content="MD RASEL AHMED" />
@@ -39,7 +40,7 @@
     <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
     <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com" defer></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -91,9 +92,7 @@
 
         h1 { font-size: clamp(1.5rem, 1.2rem + 2vw, 1.875rem); }
 
-        /* Ensure form controls reflect theme even if JS is blocked momentarily */
-        html { color-scheme: light; }
-        html.dark { color-scheme: dark; }
+        /* We manage color-scheme via JS early; no duplicate CSS needed */
 
         .brand-link { position: relative; transition: color 200ms ease; text-decoration: none; }
         .brand-link::after { content:""; position:absolute; left:0; bottom:-2px; height:2px; width:0; background:currentColor; transition:width 220ms ease; }
@@ -322,11 +321,11 @@
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.8 19.8 0 0 1 3.1 5.18 2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.72c.12.86.32 1.7.6 2.5a2 2 0 0 1-.45 2.11L9 10a16 16 0 0 0 5 5l.67-1.15a2 2 0 0 1 2.11-.45c.8.28 1.64.48 2.5.6A2 2 0 0 1 22 16.92Z"/></svg>
             +880 1782-449977
         </a>
-        <a href="https://linkedin.com/in/devsniper71" aria-label="LinkedIn">
+        <a href="https://linkedin.com/in/devsniper71" aria-label="LinkedIn" rel="noopener noreferrer">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M4.98 3.5A2.5 2.5 0 1 1 2.5 6a2.5 2.5 0 0 1 2.48-2.5Z"/><path fill="currentColor" d="M3 8.98h4v12H3z"/><path fill="currentColor" d="M9 8.98h3.83v1.64h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.65 4.78 6.09v6.22h-4v-5.51c0-1.31-.02-2.99-1.82-2.99-1.82 0-2.1 1.42-2.1 2.89v5.61H9v-12z"/></svg>
             linkedin.com/in/devsniper71
         </a>
-        <a href="https://github.com/devsniper71" aria-label="GitHub">
+        <a href="https://github.com/devsniper71" aria-label="GitHub" rel="noopener noreferrer">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5C5.73.5.98 5.24.98 11.5c0 4.85 3.14 8.97 7.5 10.42.55.1.75-.24.75-.53 0-.26-.01-1.11-.02-2.02-3.05.66-3.7-1.3-3.7-1.3-.5-1.28-1.22-1.62-1.22-1.62-1-.69.08-.68.08-.68 1.1.08 1.67 1.12 1.67 1.12.98 1.67 2.56 1.19 3.18.9.1-.71.38-1.19.68-1.46-2.44-.28-5-1.22-5-5.44 0-1.2.43-2.18 1.12-2.95-.11-.28-.49-1.42.11-2.95 0 0 .93-.3 3.05 1.12.88-.24 1.82-.36 2.76-.36.94 0 1.88.12 2.76.36 2.12-1.42 3.05-1.12 3.05-1.12.6 1.53.22 2.67.11 2.95.69.77 1.12 1.75 1.12 2.95 0 4.23-2.56 5.15-5 5.43.39.34.73 1 .73 2.03 0 1.47-.01 2.65-.01 3.01 0 .29.2.64.75.53 4.36-1.45 7.5-5.57 7.5-10.42C23.02 5.24 18.27.5 12 .5z"/></svg>
             github.com/devsniper71
         </a>
@@ -708,6 +707,13 @@
         if (!tip) return;
 
         const HIDE_KEY = 'hideSamsungForceDarkTip';
+
+        // Helper for testing: append ?show_samsung_tip to URL to re-show the banner once
+        try {
+            if (new URLSearchParams(location.search).has('show_samsung_tip')) {
+                localStorage.removeItem(HIDE_KEY);
+            }
+        } catch (_) {}
 
         function maybeShowTip() {
             if (localStorage.getItem(HIDE_KEY)) return;
