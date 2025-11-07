@@ -171,6 +171,16 @@
         html.printing { scroll-behavior: auto !important; }
         .printing .section-card::before { display: none !important; }
         .printing .section-card { background: transparent !important; box-shadow: none !important; border-color: rgba(0,0,0,.18) !important; }
+
+        /* --- Samsung Internet dark-mode hardening (opaque surfaces) --- */
+        .si.dark header { background-color:#0a0a0a !important; }
+        .si.dark .icon-btn { background-color:#18181b !important; }
+        .si.dark .section-card { background-color:#18181b !important; }
+        .si.dark .section-card:hover { background-color:#1f1f1f !important; }
+        .si.dark .border-zinc-800 { border-color:#27272a !important; }
+
+        /* If your header uses bg-*/95 utilities, make it fully opaque on SI to avoid re-darkening */
+        .si.dark header[class*="bg-"][class*="/95"] { background-color:#0a0a0a !important; }
     </style>
 </head>
 
@@ -444,6 +454,25 @@
     const btnDesk = document.getElementById('theme');
     const btnMob  = document.getElementById('themeMobile');
 
+    const metaCS = document.querySelector('meta[name="color-scheme"]');
+    const metaTC = document.querySelector('meta[name="theme-color"]');
+
+    // Detect Samsung Internet and tag <html>
+    const IS_SAMSUNG = /SamsungBrowser/i.test(navigator.userAgent);
+    if (IS_SAMSUNG) root.classList.add('si');
+
+    // Keep <meta name="color-scheme"> exactly in sync (Samsung pays attention to this)
+    function syncSamsungColorSchemeMeta(theme) {
+        if (!IS_SAMSUNG) return;
+        let meta = metaCS || document.querySelector('meta[name="color-scheme"]');
+        if (!meta) {
+            meta = document.createElement('meta');
+            meta.setAttribute('name', 'color-scheme');
+            document.head.appendChild(meta);
+        }
+        meta.setAttribute('content', theme); // 'light' | 'dark'
+    }
+
     function currentTheme() {
         return root.classList.contains('dark') ? 'dark' : 'light';
     }
@@ -452,19 +481,21 @@
         const isDark = root.classList.contains('dark');
         el.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
     }
-    function applyTheme(theme, persist = true) {
+    function applyTheme(theme) {
         root.classList.toggle('dark', theme === 'dark');
-        root.style.colorScheme = theme; // keep form controls consistent
-        if (persist) localStorage.setItem('theme', theme);
+        localStorage.setItem('theme', theme);
+        root.style.colorScheme = theme;
+        syncSamsungColorSchemeMeta(theme);   // keep this
         setThemeAria(btnDesk); setThemeAria(btnMob);
     }
-    function toggleTheme() {
-        const next = currentTheme() === 'dark' ? 'light' : 'dark';
-        applyTheme(next, true);
-    }
+     function toggleTheme() {
+             const next = currentTheme() === 'dark' ? 'light' : 'dark';
+             applyTheme(next);
+         }
     btnDesk?.addEventListener('click', toggleTheme);
     btnMob?.addEventListener('click',  toggleTheme);
     setThemeAria(btnDesk); setThemeAria(btnMob);
+    syncSamsungColorSchemeMeta(currentTheme());
 
     // If user hasn't set a preference, follow live system changes
     try {
@@ -472,7 +503,7 @@
         const mql = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
         if (!hasStored && mql && 'addEventListener' in mql) {
             mql.addEventListener('change', e => {
-                applyTheme(e.matches ? 'dark' : 'light', false);
+                applyTheme(e.matches ? 'dark' : 'light')
             });
         }
     } catch(_) {}
@@ -539,13 +570,16 @@
         try { io && io.disconnect(); } catch(e) {}
         stripInview();
         root.style.colorScheme = 'light';
+        syncSamsungColorSchemeMeta('light');
     }
     function afterPrint() {
         root.classList.remove('printing');
         const theme = _hadDark ? 'dark' : 'light';
         root.classList.toggle('dark', _hadDark);
         root.style.colorScheme = theme;
+        syncSamsungColorSchemeMeta(theme);
         setThemeAria(btnDesk); setThemeAria(btnMob);
+
     }
 
     window.addEventListener('beforeprint', beforePrint);
