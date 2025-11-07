@@ -181,7 +181,7 @@
         /* If your header uses bg-…/95 utilities, make it fully opaque on SI to avoid re-darkening */
         .si.dark header[class*="bg-"][class*="/95"] { background-color:#0a0a0a !important; }
 
-        /* NEW: Force-light on Samsung Internet when user chooses light (avoid auto-dark) */
+        /* Force-light on Samsung Internet when user chooses light (avoid auto-dark) */
         .si.si-force-light body { background-color:#ffffff !important; color:#0a0a0a !important; }
         .si.si-force-light header { background-color:#ffffff !important; }
         .si.si-force-light header[class*="bg-"][class*="/95"] { background-color:#ffffff !important; }
@@ -283,7 +283,7 @@
     </div>
 </header>
 
-<!-- Samsung “force dark” tip (only shows on Samsung Internet when needed) -->
+<!-- Samsung “force dark” tip (only shows on Samsung Internet when Light mode is selected) -->
 <div id="siForceDarkTip" class="p-3 text-sm text-zinc-800 dark:text-zinc-100" role="status" aria-live="polite">
     <div class="flex items-start gap-3">
         <div class="shrink-0 mt-0.5" aria-hidden="true">
@@ -514,7 +514,7 @@
         meta.setAttribute('content', theme); // 'light' | 'dark'
     }
 
-    /* NEW: toggle a class that forces opaque light surfaces on Samsung Internet */
+    // Toggle a class that forces opaque light surfaces on Samsung Internet
     function syncSamsungForceLight(theme){
         if (!IS_SAMSUNG) return;
         root.classList.toggle('si-force-light', theme === 'light');
@@ -533,7 +533,7 @@
         localStorage.setItem('theme', theme);
         root.style.colorScheme = theme;
         syncSamsungColorSchemeMeta(theme);
-        syncSamsungForceLight(theme); // NEW
+        syncSamsungForceLight(theme);
         setThemeAria(btnDesk); setThemeAria(btnMob);
     }
     function toggleTheme() {
@@ -544,7 +544,7 @@
     btnMob?.addEventListener('click',  toggleTheme);
     setThemeAria(btnDesk); setThemeAria(btnMob);
     syncSamsungColorSchemeMeta(currentTheme());
-    syncSamsungForceLight(currentTheme()); // NEW init
+    syncSamsungForceLight(currentTheme());
 
     // If user hasn't set a preference, follow live system changes
     try {
@@ -639,7 +639,7 @@
         stripInview();
         root.style.colorScheme = 'light';
         syncSamsungColorSchemeMeta('light');
-        syncSamsungForceLight('light'); // NEW
+        syncSamsungForceLight('light');
     }
 
     function afterPrint() {
@@ -653,7 +653,7 @@
         root.classList.toggle('dark', _hadDark);
         root.style.colorScheme = theme;
         syncSamsungColorSchemeMeta(theme);
-        syncSamsungForceLight(theme); // NEW
+        syncSamsungForceLight(theme);
         setThemeAria(btnDesk); setThemeAria(btnMob);
     }
 
@@ -700,33 +700,18 @@
 
     sections.forEach(s => io.observe(s));
 
-    /* ---- Samsung Force-Dark education banner ---- */
-    (function(){
+    /* ---- Samsung Force-Dark education banner — simple logic ---- */
+    (function () {
         if (!IS_SAMSUNG) return;
         const tip = document.getElementById('siForceDarkTip');
         if (!tip) return;
 
         const HIDE_KEY = 'hideSamsungForceDarkTip';
 
-        function isDarkPrefGloballyForced() {
-            // Heuristic: if site requests Light (no .dark) but a white test swatch is remapped darker, assume force-dark.
-            try {
-                const test = document.createElement('div');
-                test.style.cssText = 'position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;background:rgb(255,255,255);';
-                document.body.appendChild(test);
-                const color = getComputedStyle(test).backgroundColor;
-                document.body.removeChild(test);
-                return !root.classList.contains('dark') && color && color !== 'rgb(255, 255, 255)';
-            } catch { return false; }
-        }
-
         function maybeShowTip() {
             if (localStorage.getItem(HIDE_KEY)) return;
-            if (!root.classList.contains('dark') && isDarkPrefGloballyForced()) {
-                tip.classList.add('show');
-            } else {
-                tip.classList.remove('show');
-            }
+            const isLight = !root.classList.contains('dark');
+            tip.classList.toggle('show', isLight);
         }
 
         document.getElementById('siTipHide')?.addEventListener('click', () => {
@@ -738,9 +723,9 @@
         if (document.readyState === 'complete') { maybeShowTip(); }
         else { window.addEventListener('load', maybeShowTip); }
 
+        // Re-evaluate after theme changes
         btnDesk?.addEventListener('click', () => setTimeout(maybeShowTip, 0));
         btnMob?.addEventListener('click',  () => setTimeout(maybeShowTip, 0));
-        window.addEventListener('resize', () => { if (!root.classList.contains('dark')) maybeShowTip(); });
     })();
 </script>
 </body>
