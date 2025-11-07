@@ -112,11 +112,11 @@
         .nav-underline { background-image:linear-gradient(currentColor,currentColor); background-repeat:no-repeat; background-position:0 100%; background-size:0% 1.5px; transition:background-size 220ms ease; }
         .nav-pill:hover .nav-underline, .nav-pill:focus-visible .nav-underline { background-size:100% 1.5px; }
 
-        .icon-btn { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:12px; border:1px solid rgb(228 228 231); background:rgba(255,255,255,.6); transition:transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease, background-color 200ms ease; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+        .icon-btn { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:12px; border:1px solid rgb(228, 228, 231); background:rgba(255,255,255,.6); transition:transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease, background-color 200ms ease; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
         @media (min-width:640px){ .icon-btn{ width:36px; height:36px; } }
         .icon-btn:hover { transform:translateY(-2px); border-color:rgba(59,130,246,.5); background:linear-gradient(180deg, rgba(59,130,246,.06), rgba(255,255,255,.4)); box-shadow:0 8px 20px rgba(0,0,0,.08); }
         .icon-btn:focus-visible { outline:2px solid #2563eb; outline-offset:2px; }
-        .dark .icon-btn { border-color:rgb(39 39 42); background:rgba(24,24,27,.6); }
+        .dark .icon-btn { border-color:rgb(39,39,42); background:rgba(24,24,27,.6); }
         .dark .icon-btn:hover { background:linear-gradient(180deg, rgba(59,130,246,.12), rgba(24,24,27,.7)); box-shadow:0 10px 28px rgba(0,0,0,.35); border-color:rgba(147,197,253,.4); }
 
         .section-card { position:relative; border:1px solid rgba(228,228,231,.9); border-radius:16px; transition:transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease, background-color 220ms ease; }
@@ -180,6 +180,14 @@
 
         /* If your header uses bg-…/95 utilities, make it fully opaque on SI to avoid re-darkening */
         .si.dark header[class*="bg-"][class*="/95"] { background-color:#0a0a0a !important; }
+
+        /* NEW: Force-light on Samsung Internet when user chooses light (avoid auto-dark) */
+        .si.si-force-light body { background-color:#ffffff !important; color:#0a0a0a !important; }
+        .si.si-force-light header { background-color:#ffffff !important; }
+        .si.si-force-light header[class*="bg-"][class*="/95"] { background-color:#ffffff !important; }
+        .si.si-force-light .icon-btn { background-color:#ffffff !important; border-color:#e4e4e7 !important; }
+        .si.si-force-light .section-card { background-color:#ffffff !important; border-color:#e4e4e7 !important; }
+        .si.si-force-light .dark\:border-zinc-800 { border-color:#e4e4e7 !important; }
     </style>
 </head>
 
@@ -469,6 +477,12 @@
         meta.setAttribute('content', theme); // 'light' | 'dark'
     }
 
+    /* NEW: toggle a class that forces opaque light surfaces on Samsung Internet */
+    function syncSamsungForceLight(theme){
+        if (!IS_SAMSUNG) return;
+        root.classList.toggle('si-force-light', theme === 'light');
+    }
+
     function currentTheme() {
         return root.classList.contains('dark') ? 'dark' : 'light';
     }
@@ -481,7 +495,8 @@
         root.classList.toggle('dark', theme === 'dark');
         localStorage.setItem('theme', theme);
         root.style.colorScheme = theme;
-        syncSamsungColorSchemeMeta(theme);   // keep this
+        syncSamsungColorSchemeMeta(theme);
+        syncSamsungForceLight(theme); // NEW
         setThemeAria(btnDesk); setThemeAria(btnMob);
     }
     function toggleTheme() {
@@ -492,6 +507,7 @@
     btnMob?.addEventListener('click',  toggleTheme);
     setThemeAria(btnDesk); setThemeAria(btnMob);
     syncSamsungColorSchemeMeta(currentTheme());
+    syncSamsungForceLight(currentTheme()); // NEW init
 
     // If user hasn't set a preference, follow live system changes
     try {
@@ -586,6 +602,7 @@
         stripInview();
         root.style.colorScheme = 'light';
         syncSamsungColorSchemeMeta('light');
+        syncSamsungForceLight('light'); // NEW
     }
 
     function afterPrint() {
@@ -599,6 +616,7 @@
         root.classList.toggle('dark', _hadDark);
         root.style.colorScheme = theme;
         syncSamsungColorSchemeMeta(theme);
+        syncSamsungForceLight(theme); // NEW
         setThemeAria(btnDesk); setThemeAria(btnMob);
     }
 
